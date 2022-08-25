@@ -8,7 +8,6 @@ import { EnhancedStore } from '@reduxjs/toolkit';
 import {
   ApolloClient,
   InMemoryCache,
-  NormalizedCacheObject,
 } from '@apollo/client';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
