@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface ExampleState {
+export interface ReviewsState {
   value: number;
   sideEffectCount: number;
   fetchData?: unknown[];
 }
 
-const initialState: ExampleState = {
+const initialState: ReviewsState = {
   value: 0,
   sideEffectCount: 0,
 };
 
 export const slice = createSlice({
   initialState,
-  name: 'example',
+  name: 'reviews',
   reducers: {
     fetch: () => {},
     clearData: (state) => {

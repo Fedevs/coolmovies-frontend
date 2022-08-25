@@ -6,17 +6,17 @@ import { RootState } from '../../store';
 import { EpicDependencies } from '../../types';
 import { actions, SliceAction } from './slice';
 
-export const exampleEpic: Epic = (
+export const reviewsEpic: Epic = (
   action$: Observable<SliceAction['increment']>,
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(
     filter(actions.increment.match),
-    filter(() => Boolean(state$.value.example.value % 2)),
+    filter(() => Boolean(state$.value.reviews.value % 2)),
     map(() => actions.epicSideEffect())
   );
 
-export const exampleAsyncEpic: Epic = (
+export const reviewsAsyncEpic: Epic = (
   action$: Observable<SliceAction['fetch']>,
   state$: StateObservable<RootState>,
   { client }: EpicDependencies
@@ -26,7 +26,7 @@ export const exampleAsyncEpic: Epic = (
     switchMap(async () => {
       try {
         const result = await client.query({
-          query: exampleQuery,
+          query: reviewsQuery,
         });
         return actions.loaded({ data: result.data });
       } catch (err) {
@@ -35,7 +35,7 @@ export const exampleAsyncEpic: Epic = (
     })
   );
 
-const exampleQuery = gql`
+const reviewsQuery = gql`
   query AllMovies {
     allMovies {
       nodes {
