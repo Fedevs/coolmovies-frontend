@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface ReviewsState {
   value: number;
@@ -13,8 +13,9 @@ const initialState: ReviewsState = {
 
 export const slice = createSlice({
   initialState,
-  name: 'reviews',
+  name: "reviews",
   reducers: {
+    fetchAllReviews: () => {},
     fetch: () => {},
     clearData: (state) => {
       state.fetchData = undefined;
@@ -23,7 +24,7 @@ export const slice = createSlice({
       state.fetchData = action.payload.data;
     },
     loadError: (state) => {
-      state.fetchData = ['Error Fetching :('];
+      state.fetchData = ["Error Fetching :("];
     },
     increment: (state) => {
       state.value += 1;
