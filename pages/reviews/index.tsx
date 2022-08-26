@@ -20,6 +20,14 @@ const Reviews: NextPage = () => {
   return (
     <div css={styles.root}>
       <h1>Reviews</h1>
+      <Button
+        variant={"contained"}
+        onClick={() =>
+          dispatch(reviewsActions.setShowAddMovieReviewModal(true))
+        }
+      >
+        Add a review
+      </Button>
       {reviewsState.fetchData?.allMovieReviews?.nodes.length ? (
         reviewsState.fetchData?.allMovieReviews?.nodes.map((review, index) => (
           <div key={review.id}>
@@ -36,20 +44,12 @@ const Reviews: NextPage = () => {
         <div>There's nothing here...</div>
       )}
 
-      <Button
-        variant={"contained"}
-        onClick={() =>
-          dispatch(reviewsActions.setShowAddMovieReviewModal(true))
-        }
-      >
-        Add a review
-      </Button>
       <AddMovieReviewModal
         open={reviewsState.showAddMovieReviewModal}
         onClose={() =>
           dispatch(reviewsActions.setShowAddMovieReviewModal(false))
         }
-        styles={styles.modal}
+        css={styles.modal}
       ></AddMovieReviewModal>
     </div>
   );

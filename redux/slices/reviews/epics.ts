@@ -1,10 +1,11 @@
-import { gql } from "@apollo/client";
 import { Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
 import { RootState } from "../../store";
 import { EpicDependencies } from "../../types";
 import { actions, SliceAction } from "./slice";
+import ALL_MOVIE_REVIEWS from "../../../assets/graphql/queries/AllMovieReviews";
+import CREATE_MOVIE_REVIEW from "../../../assets/graphql/mutations/CreateMovieReview";
 
 export const reviewsEpic: Epic = (
   action$: Observable<SliceAction["increment"]>,
@@ -26,7 +27,7 @@ export const fetchAllReviewsEpic: Epic = (
     switchMap(async () => {
       try {
         const result = await client.query({
-          query: allMovieReviewsQuery,
+          query: ALL_MOVIE_REVIEWS,
         });
         return actions.loaded({ data: result.data });
       } catch (err) {
@@ -35,18 +36,28 @@ export const fetchAllReviewsEpic: Epic = (
     })
   );
 
-const allMovieReviewsQuery = gql`
-  query AllMovieReviews {
-    allMovieReviews {
-      nodes {
-        id
-        rating
-        body
-        title
-        movieId
-        nodeId
-        userReviewerId
+export const addMovieReviewEpic: Epic = (
+  action$: Observable<SliceAction["addMovieReview"]>,
+  state$: StateObservable<RootState>,
+  { client }: EpicDependencies
+) => {
+  return action$.pipe(
+    filter(actions.addMovieReview.match),
+    switchMap(async (action) => {
+      try {
+        const result = await client.mutate({
+          mutation: CREATE_MOVIE_REVIEW,
+          variables: {
+            input: {
+              movieReview: action.payload,
+            },
+          },
+        });
+
+        return actions.fetchAllReviews();
+      } catch (err) {
+        return actions.loadError();
       }
-    }
-  }
-`;
+    })
+  );
+};

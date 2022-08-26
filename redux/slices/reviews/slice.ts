@@ -18,6 +18,7 @@ export const slice = createSlice({
   name: "reviews",
   reducers: {
     fetchAllReviews: () => {},
+    addMovieReview: (state, action: PayloadAction<object>) => {},
     setShowAddMovieReviewModal: (state, action: PayloadAction<boolean>) => {
       state.showAddMovieReviewModal = action.payload;
     },
