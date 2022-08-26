@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface ReviewsState {
   value: number;
   sideEffectCount: number;
+  showAddMovieReviewModal: boolean;
   fetchData?: unknown[];
 }
 
 const initialState: ReviewsState = {
   value: 0,
   sideEffectCount: 0,
+  showAddMovieReviewModal: false,
 };
 
 export const slice = createSlice({
@@ -16,6 +18,9 @@ export const slice = createSlice({
   name: "reviews",
   reducers: {
     fetchAllReviews: () => {},
+    setShowAddMovieReviewModal: (state, action: PayloadAction<boolean>) => {
+      state.showAddMovieReviewModal = action.payload;
+    },
     fetch: () => {},
     clearData: (state) => {
       state.fetchData = undefined;

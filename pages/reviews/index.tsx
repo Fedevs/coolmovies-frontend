@@ -1,12 +1,5 @@
 import { css } from "@emotion/react";
-import {
-  Button,
-  Paper,
-  TextField,
-  Tooltip,
-  Typography,
-  Zoom,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import type { NextPage } from "next";
 import {
   reviewsActions,
@@ -14,11 +7,15 @@ import {
   useAppSelector,
   ReviewsState,
 } from "/redux";
+import { useEffect } from "react";
+import AddMovieReviewModal from "../../components/AddMovieReviewModal";
 
 const Reviews: NextPage = () => {
   const dispatch = useAppDispatch();
   const reviewsState = useAppSelector((state: ReviewsState) => state.reviews);
-  dispatch(reviewsActions.fetchAllReviews()); // find out if it's the right way to get initial data
+  useEffect(() => {
+    dispatch(reviewsActions.fetchAllReviews());
+  }, []);
 
   return (
     <div css={styles.root}>
@@ -38,17 +35,32 @@ const Reviews: NextPage = () => {
       ) : (
         <div>There's nothing here...</div>
       )}
+
+      <Button
+        variant={"contained"}
+        onClick={() =>
+          dispatch(reviewsActions.setShowAddMovieReviewModal(true))
+        }
+      >
+        Add a review
+      </Button>
+      <AddMovieReviewModal
+        open={reviewsState.showAddMovieReviewModal}
+        onClose={() =>
+          dispatch(reviewsActions.setShowAddMovieReviewModal(false))
+        }
+        styles={styles.modal}
+      ></AddMovieReviewModal>
     </div>
   );
 };
 
 const styles = {
   root: css({
-    height: "100vh",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    padding: "30px",
+  }),
+  modal: css({
+    backgroundColor: "white",
   }),
 };
 
