@@ -1,13 +1,13 @@
-import { gql } from '@apollo/client';
-import { Epic, StateObservable } from 'redux-observable';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { RootState } from '../../store';
-import { EpicDependencies } from '../../types';
-import { actions, SliceAction } from './slice';
+import { gql } from "@apollo/client";
+import { Epic, StateObservable } from "redux-observable";
+import { Observable } from "rxjs";
+import { filter, map, switchMap } from "rxjs/operators";
+import { RootState } from "../../store";
+import { EpicDependencies } from "../../types";
+import { actions, SliceAction } from "./slice";
 
 export const reviewsEpic: Epic = (
-  action$: Observable<SliceAction['increment']>,
+  action$: Observable<SliceAction["increment"]>,
   state$: StateObservable<RootState>
 ) =>
   action$.pipe(
@@ -16,17 +16,17 @@ export const reviewsEpic: Epic = (
     map(() => actions.epicSideEffect())
   );
 
-export const reviewsAsyncEpic: Epic = (
-  action$: Observable<SliceAction['fetch']>,
+export const fetchAllReviewsEpic: Epic = (
+  action$: Observable<SliceAction["fetchAllReviews"]>,
   state$: StateObservable<RootState>,
   { client }: EpicDependencies
 ) =>
   action$.pipe(
-    filter(actions.fetch.match),
+    filter(actions.fetchAllReviews.match),
     switchMap(async () => {
       try {
         const result = await client.query({
-          query: reviewsQuery,
+          query: allMovieReviewsQuery,
         });
         return actions.loaded({ data: result.data });
       } catch (err) {
@@ -35,22 +35,17 @@ export const reviewsAsyncEpic: Epic = (
     })
   );
 
-const reviewsQuery = gql`
-  query AllMovies {
-    allMovies {
+const allMovieReviewsQuery = gql`
+  query AllMovieReviews {
+    allMovieReviews {
       nodes {
         id
-        imgUrl
-        movieDirectorId
-        userCreatorId
+        rating
+        body
         title
-        releaseDate
+        movieId
         nodeId
-        userByUserCreatorId {
-          id
-          name
-          nodeId
-        }
+        userReviewerId
       }
     }
   }
