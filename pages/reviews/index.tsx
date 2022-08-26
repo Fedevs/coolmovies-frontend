@@ -36,7 +36,7 @@ const Reviews: NextPage = () => {
           </div>
         ))
       ) : (
-        <div>Nada por aquí...</div>
+        <div>There's nothing here...</div>
       )}
     </div>
   );
