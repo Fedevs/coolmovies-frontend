@@ -13,6 +13,8 @@ export interface Review {
   title: string;
   movieId: string;
   userReviewerId: string;
+  movieByMovieId: Movie;
+  userByUserReviewerId: User;
 }
 
 export interface User {
@@ -21,7 +23,7 @@ export interface User {
 }
 
 export interface Movie {
-  id: string;
+  id?: string;
   imgUrl: string;
   movieDirectorId: string;
   releaseDate: string;
