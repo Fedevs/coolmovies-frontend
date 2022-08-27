@@ -45,10 +45,6 @@ const createMovieReviewModal: FC<ModalProps> = ({
     setMovieReview({ ...movieReview, [name]: value });
   };
 
-  useEffect(() => {
-    dispatch(reviewsActions.getAllMovies());
-  }, []);
-
   const onSubmit = () => {
     dispatch(reviewsActions.createMovieReview(movieReview));
     setMovieReview(initialMovieReviewValues);
@@ -60,19 +56,8 @@ const createMovieReviewModal: FC<ModalProps> = ({
     id: string;
   }
 
-  const movies2: Array<Movie> = [
-    {
-      title: "Star Wars: A New Hope",
-      id: "b8d93229-e02a-4060-9370-3e073ada86c3",
-    },
-    {
-      title: "Rogue One: A Star Wars Story",
-      id: "70351289-8756-4101-bf9a-37fc8c7a82cd",
-    },
-  ];
-
-  const defaultProps = {
-    options: movies2,
+  const autocompleteProps = {
+    options: movies,
     getOptionLabel: (option: Movie) => option.title,
   };
 
@@ -88,7 +73,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
         <FormControl fullWidth css={styles.form}>
           {movies?.length && <div>{movies[0].title}</div>}
           <Autocomplete
-            {...defaultProps}
+            {...autocompleteProps}
             autoComplete
             disablePortal
             isOptionEqualToValue={(option: Movie, value: Movie) =>

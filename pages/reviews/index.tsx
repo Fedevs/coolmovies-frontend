@@ -17,6 +17,7 @@ const Reviews: NextPage = () => {
   useEffect(() => {
     dispatch(reviewsActions.getAllReviews());
     dispatch(reviewsActions.getCurrentUser());
+    dispatch(reviewsActions.getAllMovies());
   }, []);
 
   return (
