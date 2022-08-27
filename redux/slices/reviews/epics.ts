@@ -88,7 +88,6 @@ export const createMovieReviewEpic: Epic = (
             },
           },
         });
-
         return actions.updateReviews(result.data.createMovieReview.movieReview);
       } catch (err) {
         return actions.loadError();

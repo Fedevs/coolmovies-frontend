@@ -11,6 +11,10 @@ const CREATE_MOVIE_REVIEW = gql`
         movieId
         nodeId
         userReviewerId
+        movieByMovieId {
+          imgUrl
+          title
+        }
       }
     }
   }

@@ -9,7 +9,7 @@ import {
   CardMedia,
   Button,
 } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { Review } from "../../redux";
 
 interface MovieReviewCardProps {
@@ -17,9 +17,10 @@ interface MovieReviewCardProps {
 }
 
 const MovieReviewCard: FC<MovieReviewCardProps> = ({
-  review: { movieByMovieId, rating, body, title },
+  review: { movieByMovieId, rating, body, userByUserReviewerId, title },
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const largeDescription: boolean = body?.length > 140;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -55,24 +56,33 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({
           <Typography gutterBottom variant="h6" component="div" align="center">
             {title}
           </Typography>
-          {body && (
+          {body ? (
             <Box>
-              {expanded ? (
-                <Typography variant="body2" color="text.secondary">
-                  {body}
-                  <Button size="small" onClick={handleExpandClick}>
-                    Read less
-                  </Button>
-                </Typography>
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  {`${body.slice(0, 140)}...`}
-                  <Button size="small" onClick={handleExpandClick}>
-                    Read more
-                  </Button>
-                </Typography>
-              )}
+              <Typography variant="body2" color="text.secondary">
+                <b>{userByUserReviewerId?.name}:&nbsp;</b>
+                {expanded ? (
+                  <Fragment>
+                    "{body}"
+                    <Button size="small" onClick={handleExpandClick}>
+                      Read less
+                    </Button>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    {`"${body.slice(0, 140)}${largeDescription ? "..." : ""}"`}
+                    {largeDescription && (
+                      <Button size="small" onClick={handleExpandClick}>
+                        Read more
+                      </Button>
+                    )}
+                  </Fragment>
+                )}
+              </Typography>
             </Box>
+          ) : (
+            <Typography variant="body2" css={styles.userName}>
+              <b>{userByUserReviewerId?.name}</b>
+            </Typography>
           )}
         </CardContent>
       </CardActionArea>
@@ -92,6 +102,10 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     marginBottom: "5px",
+  }),
+  userName: css({
+    display: "flex",
+    justifyContent: "flex-end",
   }),
 };
 

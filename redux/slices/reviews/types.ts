@@ -23,9 +23,7 @@ export interface User {
 }
 
 export interface Movie {
-  id?: string;
+  id: string;
   imgUrl: string;
-  movieDirectorId: string;
-  releaseDate: string;
   title: string;
 }
