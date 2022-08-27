@@ -29,7 +29,7 @@ export const fetchAllReviewsEpic: Epic = (
         const result = await client.query({
           query: ALL_MOVIE_REVIEWS,
         });
-        return actions.loaded({ data: result.data });
+        return actions.loaded(result.data.allMovieReviews.nodes);
       } catch (err) {
         return actions.loadError();
       }
@@ -54,7 +54,7 @@ export const addMovieReviewEpic: Epic = (
           },
         });
 
-        return actions.fetchAllReviews();
+        return actions.updateReviews(result.data.createMovieReview.movieReview);
       } catch (err) {
         return actions.loadError();
       }

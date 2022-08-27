@@ -4,13 +4,17 @@ export interface ReviewsState {
   value: number;
   sideEffectCount: number;
   showAddMovieReviewModal: boolean;
-  fetchData?: unknown[];
+  createMovieReviewLoading: boolean;
+  allMovieReviews: any;
+  fetchData?: any;
 }
 
 const initialState: ReviewsState = {
   value: 0,
   sideEffectCount: 0,
   showAddMovieReviewModal: false,
+  createMovieReviewLoading: false,
+  allMovieReviews: [],
 };
 
 export const slice = createSlice({
@@ -19,6 +23,9 @@ export const slice = createSlice({
   reducers: {
     fetchAllReviews: () => {},
     addMovieReview: (state, action: PayloadAction<object>) => {},
+    createMovieReviewLoading: (state, action: PayloadAction<boolean>) => {
+      state.createMovieReviewLoading = action.payload;
+    },
     setShowAddMovieReviewModal: (state, action: PayloadAction<boolean>) => {
       state.showAddMovieReviewModal = action.payload;
     },
@@ -26,8 +33,11 @@ export const slice = createSlice({
     clearData: (state) => {
       state.fetchData = undefined;
     },
-    loaded: (state, action: PayloadAction<{ data: unknown[] }>) => {
-      state.fetchData = action.payload.data;
+    loaded: (state, action: PayloadAction<any>) => {
+      state.allMovieReviews = action.payload;
+    },
+    updateReviews: (state, action: PayloadAction<any>) => {
+      state.allMovieReviews.unshift(action.payload);
     },
     loadError: (state) => {
       state.fetchData = ["Error Fetching :("];

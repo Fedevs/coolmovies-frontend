@@ -50,6 +50,8 @@ const AddMovieReviewModal: FC<ModalProps> = ({ open, onClose }: ModalProps) => {
 
   const onSubmit = () => {
     dispatch(reviewsActions.addMovieReview(movieReview));
+    setMovieReview(initialMovieReviewValues);
+    dispatch(reviewsActions.setShowAddMovieReviewModal(false));
   };
 
   interface Movie {

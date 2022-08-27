@@ -28,9 +28,10 @@ const Reviews: NextPage = () => {
       >
         Add a review
       </Button>
-      {reviewsState.fetchData?.allMovieReviews?.nodes.length ? (
-        reviewsState.fetchData?.allMovieReviews?.nodes.map((review, index) => (
+      {reviewsState.allMovieReviews.length ? (
+        reviewsState.allMovieReviews.map((review, index) => (
           <div key={review.id}>
+            {reviewsState.allMovieReviews.length}
             <h2>Review {index + 1}</h2>
             <ul>
               <li>{review.id}</li>
