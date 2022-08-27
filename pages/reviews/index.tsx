@@ -15,7 +15,7 @@ const Reviews: NextPage = () => {
   const reviewsState = useAppSelector((state) => state.reviews);
 
   useEffect(() => {
-    dispatch(reviewsActions.fetchAllReviews());
+    dispatch(reviewsActions.getAllReviews());
     dispatch(reviewsActions.getCurrentUser());
   }, []);
 
@@ -47,13 +47,17 @@ const Reviews: NextPage = () => {
         <div>There's nothing here...</div>
       )}
 
-      <CreateMovieReviewModal
-        open={reviewsState.showcreateMovieReviewModal}
-        onClose={() =>
-          dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
-        }
-        css={styles.modal}
-      ></CreateMovieReviewModal>
+      {reviewsState.showcreateMovieReviewModal && (
+        <CreateMovieReviewModal
+          open={reviewsState.showcreateMovieReviewModal}
+          onClose={() =>
+            dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+          }
+          movies={reviewsState.movies}
+          dispatch={dispatch}
+          css={styles.modal}
+        ></CreateMovieReviewModal>
+      )}
     </div>
   );
 };

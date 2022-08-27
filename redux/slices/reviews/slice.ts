@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ReviewsState, Review, User } from "./types";
+import { ReviewsState, Review, User, Movie } from "./types";
 
 const initialState: ReviewsState = {
-  value: 0,
-  sideEffectCount: 0,
   showcreateMovieReviewModal: false,
   createMovieReviewLoading: false,
   allMovieReviews: [],
+  movies: [],
   user: { id: "", name: "" },
 };
 
@@ -14,7 +13,11 @@ export const slice = createSlice({
   initialState,
   name: "reviews",
   reducers: {
-    fetchAllReviews: () => {},
+    getAllMovies: () => {},
+    moviesLoaded: (state, action: PayloadAction<Array<Movie>>) => {
+      state.movies = action.payload;
+    },
+    getAllReviews: () => {},
     getCurrentUser: () => {},
     updateUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
@@ -41,5 +44,5 @@ export const slice = createSlice({
 
 export const { actions } = slice;
 export type SliceAction = typeof actions;
-export type { ReviewsState, Review };
+export type { ReviewsState, Review, Movie };
 export default slice.reducer;

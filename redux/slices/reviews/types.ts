@@ -1,10 +1,9 @@
 export interface ReviewsState {
-  value: number;
-  sideEffectCount: number;
+  allMovieReviews: Array<Review>;
   showcreateMovieReviewModal: boolean;
   createMovieReviewLoading: boolean;
-  allMovieReviews: Array<Review>;
   user: User;
+  movies: Array<Movie>;
 }
 
 export interface Review {
@@ -19,4 +18,12 @@ export interface Review {
 export interface User {
   id: string;
   name: string;
+}
+
+export interface Movie {
+  id: string;
+  imgUrl: string;
+  movieDirectorId: string;
+  releaseDate: string;
+  title: string;
 }

@@ -1,15 +1,17 @@
 export { actions as reviewsActions } from "./slice";
 export { default as reviewsReducer } from "./slice";
-export type { ReviewsState, Review } from "./slice";
+export type { ReviewsState, Review, Movie } from "./slice";
 import { combineEpics } from "redux-observable";
 import {
-  fetchAllReviewsEpic,
+  getAllReviewsEpic,
   createMovieReviewEpic,
-  getCurrentUser,
+  getCurrentUserEpic,
+  getAllMoviesEpic,
 } from "./epics";
 
 export const reviewsEpics = combineEpics(
-  fetchAllReviewsEpic,
+  getAllReviewsEpic,
   createMovieReviewEpic,
-  getCurrentUser
+  getCurrentUserEpic,
+  getAllMoviesEpic
 );

@@ -10,11 +10,16 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { FC, SyntheticEvent, useEffect, useState } from "react";
-import { useAppDispatch, reviewsActions, Review } from "../../redux";
+import { reviewsActions, Review, ReviewsState, Movie } from "../../redux";
+import { AnyAction, Dispatch, ThunkDispatch } from "@reduxjs/toolkit";
 
 type ModalProps = {
   open: boolean;
   onClose: () => {};
+  dispatch: Dispatch<AnyAction> &
+    ThunkDispatch<{ reviews: ReviewsState }, null, AnyAction> &
+    ThunkDispatch<{ reviews: ReviewsState }, undefined, AnyAction>;
+  movies: Array<Movie>;
 };
 
 const initialMovieReviewValues: Review = {
@@ -28,8 +33,9 @@ const initialMovieReviewValues: Review = {
 const createMovieReviewModal: FC<ModalProps> = ({
   open,
   onClose,
+  dispatch,
+  movies,
 }: ModalProps) => {
-  const dispatch = useAppDispatch();
   const [movieReview, setMovieReview] = useState(initialMovieReviewValues);
 
   const onChange = (
@@ -38,6 +44,10 @@ const createMovieReviewModal: FC<ModalProps> = ({
     const { name, value } = event.target as HTMLInputElement;
     setMovieReview({ ...movieReview, [name]: value });
   };
+
+  useEffect(() => {
+    dispatch(reviewsActions.getAllMovies());
+  }, []);
 
   const onSubmit = () => {
     dispatch(reviewsActions.createMovieReview(movieReview));
@@ -50,7 +60,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
     id: string;
   }
 
-  const movies: Array<Movie> = [
+  const movies2: Array<Movie> = [
     {
       title: "Star Wars: A New Hope",
       id: "b8d93229-e02a-4060-9370-3e073ada86c3",
@@ -62,7 +72,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
   ];
 
   const defaultProps = {
-    options: movies,
+    options: movies2,
     getOptionLabel: (option: Movie) => option.title,
   };
 
@@ -76,6 +86,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
       <Box css={styles.modal}>
         <h2 id="add-movie-review-modal-title">Add your review</h2>
         <FormControl fullWidth css={styles.form}>
+          {movies?.length && <div>{movies[0].title}</div>}
           <Autocomplete
             {...defaultProps}
             autoComplete

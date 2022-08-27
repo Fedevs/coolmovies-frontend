@@ -4,11 +4,33 @@ import { filter, map, switchMap } from "rxjs/operators";
 import { RootState } from "../../store";
 import { EpicDependencies } from "../../types";
 import { actions, SliceAction } from "./slice";
-import ALL_MOVIE_REVIEWS from "../../../assets/graphql/queries/AllMovieReviews";
-import CREATE_MOVIE_REVIEW from "../../../assets/graphql/mutations/CreateMovieReview";
-import CURRENT_USER from "../../../assets/graphql/queries/CurrentUser";
+import {
+  ALL_MOVIES,
+  ALL_MOVIE_REVIEWS,
+  CURRENT_USER,
+  CREATE_MOVIE_REVIEW,
+} from "../../../assets/graphql";
 
-export const getCurrentUser: Epic = (
+export const getAllMoviesEpic: Epic = (
+  action$: Observable<SliceAction["getAllMovies"]>,
+  state$: StateObservable<RootState>,
+  { client }: EpicDependencies
+) =>
+  action$.pipe(
+    filter(actions.getAllMovies.match),
+    switchMap(async () => {
+      try {
+        const { data } = await client.query({
+          query: ALL_MOVIES,
+        });
+        return actions.moviesLoaded(data.allMovies.nodes);
+      } catch (err) {
+        return actions.loadError();
+      }
+    })
+  );
+
+export const getCurrentUserEpic: Epic = (
   action$: Observable<SliceAction["getCurrentUser"]>,
   state$: StateObservable<RootState>,
   { client }: EpicDependencies
@@ -27,13 +49,13 @@ export const getCurrentUser: Epic = (
     })
   );
 
-export const fetchAllReviewsEpic: Epic = (
-  action$: Observable<SliceAction["fetchAllReviews"]>,
+export const getAllReviewsEpic: Epic = (
+  action$: Observable<SliceAction["getAllReviews"]>,
   state$: StateObservable<RootState>,
   { client }: EpicDependencies
 ) =>
   action$.pipe(
-    filter(actions.fetchAllReviews.match),
+    filter(actions.getAllReviews.match),
     switchMap(async () => {
       try {
         const result = await client.query({
