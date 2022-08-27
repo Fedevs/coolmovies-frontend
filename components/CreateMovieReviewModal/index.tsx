@@ -9,9 +9,9 @@ import {
   Button,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { FC, SyntheticEvent, useEffect, useState } from "react";
-import { reviewsActions, Review, ReviewsState, Movie } from "../../redux";
+import { FC, SyntheticEvent, useState } from "react";
 import { AnyAction, Dispatch, ThunkDispatch } from "@reduxjs/toolkit";
+import { reviewsActions, Review, ReviewsState, Movie } from "../../redux";
 
 type ModalProps = {
   open: boolean;
@@ -156,8 +156,8 @@ const styles = {
   form: css({
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-around",
     height: "80%",
+    justifyContent: "space-around",
     width: "100%",
   }),
   buttonWrapper: css({

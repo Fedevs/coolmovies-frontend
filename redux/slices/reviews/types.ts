@@ -13,8 +13,8 @@ export interface Review {
   title: string;
   movieId: string;
   userReviewerId: string;
-  movieByMovieId: Movie;
-  userByUserReviewerId: User;
+  movieByMovieId?: Movie;
+  userByUserReviewerId?: User;
 }
 
 export interface User {

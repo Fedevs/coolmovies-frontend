@@ -1,14 +1,26 @@
 import { css } from "@emotion/react";
-import { Button } from "@mui/material";
 import type { NextPage } from "next";
+import Image from "next/image";
+import { useEffect } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Container, Fab } from "@mui/material";
 import {
   reviewsActions,
   useAppDispatch,
   useAppSelector,
   Review,
 } from "../../redux";
-import { useEffect } from "react";
 import CreateMovieReviewModal from "../../components/CreateMovieReviewModal";
+import MovieReviewCard from "../../components/MovieReviewCard";
+import addIcon from "../../public/add.svg";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#9C27B0",
+    },
+  },
+});
 
 const Reviews: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -21,53 +33,53 @@ const Reviews: NextPage = () => {
   }, []);
 
   return (
-    <div css={styles.root}>
-      <h1>Reviews</h1>
-      <Button
-        variant={"contained"}
-        onClick={() =>
-          dispatch(reviewsActions.setShowcreateMovieReviewModal(true))
-        }
-      >
-        Add a review
-      </Button>
-      {reviewsState.allMovieReviews.length ? (
-        reviewsState.allMovieReviews.map((review: Review, index: number) => (
-          <div key={review.id}>
-            <h2>Review {index + 1}</h2>
-            <ul>
-              <li>{review.id}</li>
-              <li>{review.rating}</li>
-              <li>{review.body}</li>
-              <li>{review.title}</li>
-            </ul>
-          </div>
-        ))
-      ) : (
-        <div>There's nothing here...</div>
-      )}
+    <ThemeProvider theme={theme}>
+      <Container css={styles.root}>
+        {reviewsState.allMovieReviews.length ? (
+          reviewsState.allMovieReviews.map((review: Review) => (
+            <MovieReviewCard review={review} key={review.id}></MovieReviewCard>
+          ))
+        ) : (
+          <div>There's nothing here...</div>
+        )}
 
-      {reviewsState.showcreateMovieReviewModal && (
-        <CreateMovieReviewModal
-          open={reviewsState.showcreateMovieReviewModal}
-          onClose={() =>
-            dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+        {reviewsState.showcreateMovieReviewModal && (
+          <CreateMovieReviewModal
+            open={reviewsState.showcreateMovieReviewModal}
+            onClose={() =>
+              dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+            }
+            movies={reviewsState.movies}
+            dispatch={dispatch}
+          ></CreateMovieReviewModal>
+        )}
+
+        <Fab
+          color="primary"
+          size="large"
+          css={styles.addReviewButton}
+          onClick={() =>
+            dispatch(reviewsActions.setShowcreateMovieReviewModal(true))
           }
-          movies={reviewsState.movies}
-          dispatch={dispatch}
-          css={styles.modal}
-        ></CreateMovieReviewModal>
-      )}
-    </div>
+        >
+          <Image src={addIcon}></Image>
+        </Fab>
+      </Container>
+    </ThemeProvider>
   );
 };
 
 const styles = {
   root: css({
-    padding: "30px",
+    backgroundColor: "#C5CAE9",
+    paddingBottom: "10px",
+    paddingTop: "10px",
   }),
-  modal: css({
-    backgroundColor: "white",
+  addReviewButton: css({
+    bottom: "10px",
+    position: "fixed",
+    right: "10px",
+    zIndex: "1000",
   }),
 };
 
