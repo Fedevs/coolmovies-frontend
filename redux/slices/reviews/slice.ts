@@ -33,7 +33,10 @@ export const slice = createSlice({
       state.allMovieReviews = action.payload;
     },
     updateReviews: (state, action: PayloadAction<Review>) => {
-      state.allMovieReviews.unshift(action.payload);
+      const { payload } = action;
+      const { id, name } = state.user;
+      const newReview = { ...payload, userByUserReviewerId: { id, name } };
+      state.allMovieReviews.unshift(newReview);
     },
     loadError: (state) => {
       // state.fetchData = ["Error Fetching :("];

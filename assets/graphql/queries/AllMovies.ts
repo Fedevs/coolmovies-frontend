@@ -6,8 +6,6 @@ const ALL_MOVIES = gql`
       nodes {
         id
         imgUrl
-        movieDirectorId
-        releaseDate
         title
       }
     }

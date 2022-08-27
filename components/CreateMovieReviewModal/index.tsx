@@ -3,15 +3,16 @@ import {
   Modal,
   Box,
   FormControl,
+  Typography,
   Rating,
   Autocomplete,
   TextField,
   Button,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { FC, SyntheticEvent, useEffect, useState } from "react";
-import { reviewsActions, Review, ReviewsState, Movie } from "../../redux";
+import { FC, SyntheticEvent, useState } from "react";
 import { AnyAction, Dispatch, ThunkDispatch } from "@reduxjs/toolkit";
+import { reviewsActions, Review, ReviewsState, Movie } from "../../redux";
 
 type ModalProps = {
   open: boolean;
@@ -51,11 +52,6 @@ const createMovieReviewModal: FC<ModalProps> = ({
     dispatch(reviewsActions.setShowcreateMovieReviewModal(false));
   };
 
-  interface Movie {
-    title: string;
-    id: string;
-  }
-
   const autocompleteProps = {
     options: movies,
     getOptionLabel: (option: Movie) => option.title,
@@ -68,14 +64,17 @@ const createMovieReviewModal: FC<ModalProps> = ({
       aria-labelledby="add-movie-review-modal-title"
       aria-describedby="add-movie-review-modal-description"
     >
-      <Box css={styles.modal}>
-        <h2 id="add-movie-review-modal-title">Add your review</h2>
+      <Box css={styles.box}>
+        <Typography variant={"h5"} css={styles.title}>
+          Rate the movie 🎬​
+        </Typography>
         <FormControl fullWidth css={styles.form}>
-          {movies?.length && <div>{movies[0].title}</div>}
           <Autocomplete
             {...autocompleteProps}
+            css={styles.formElement}
             autoComplete
             disablePortal
+            aria-required
             isOptionEqualToValue={(option: Movie, value: Movie) =>
               option.id === value.id
             }
@@ -88,6 +87,8 @@ const createMovieReviewModal: FC<ModalProps> = ({
 
           <Rating
             name="rating"
+            size="large"
+            css={styles.rating}
             defaultValue={movieReview.rating}
             precision={1}
             value={+movieReview.rating}
@@ -103,6 +104,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
             variant="outlined"
             name="title"
             placeholder="It blowed my mind"
+            css={styles.formElement}
             value={movieReview.title}
             onChange={onChange}
             required
@@ -114,6 +116,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
             variant="outlined"
             name="body"
             placeholder="This movie really made me think about..."
+            css={styles.formElement}
             value={movieReview.body}
             onChange={onChange}
             multiline
@@ -145,23 +148,35 @@ const createMovieReviewModal: FC<ModalProps> = ({
 };
 
 const styles = {
-  modal: css({
+  box: css({
+    margin: "30px 10px",
     alignItems: "center",
     backgroundColor: "#f7f7f7",
+    borderRadius: "6px",
     display: "flex",
     flexDirection: "column",
-    height: "100%",
-    padding: "1rem",
+    padding: "10px",
+  }),
+  title: css({
+    padding: "10%",
   }),
   form: css({
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-around",
-    height: "80%",
     width: "100%",
+    height: "100%",
+    justifyContent: "space-around",
+  }),
+  formElement: css({
+    margin: "10px 0",
+  }),
+  rating: css({
+    margin: "10px 0",
+    alignSelf: "center",
   }),
   buttonWrapper: css({
     display: "flex",
+    margin: "10px 0",
     justifyContent: "space-around",
   }),
 };

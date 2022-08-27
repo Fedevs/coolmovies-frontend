@@ -11,6 +11,16 @@ const ALL_MOVIE_REVIEWS = gql`
         movieId
         nodeId
         userReviewerId
+        movieByMovieId {
+          imgUrl
+          movieDirectorId
+          releaseDate
+          title
+        }
+        userByUserReviewerId {
+          id
+          name
+        }
       }
     }
   }
