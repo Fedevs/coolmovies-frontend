@@ -1,40 +1,48 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface ReviewsState {
-  value: number;
-  sideEffectCount: number;
-  fetchData?: unknown[];
-}
+import { ReviewsState, Review, User, Movie } from "./types";
 
 const initialState: ReviewsState = {
-  value: 0,
-  sideEffectCount: 0,
+  showcreateMovieReviewModal: false,
+  createMovieReviewLoading: false,
+  allMovieReviews: [],
+  movies: [],
+  user: { id: "", name: "" },
 };
 
 export const slice = createSlice({
   initialState,
   name: "reviews",
   reducers: {
-    fetchAllReviews: () => {},
-    fetch: () => {},
-    clearData: (state) => {
-      state.fetchData = undefined;
+    getAllMovies: () => {},
+    moviesLoaded: (state, action: PayloadAction<Array<Movie>>) => {
+      state.movies = action.payload;
     },
-    loaded: (state, action: PayloadAction<{ data: unknown[] }>) => {
-      state.fetchData = action.payload.data;
+    getAllReviews: () => {},
+    getCurrentUser: () => {},
+    updateUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    },
+    createMovieReview: (state, action: PayloadAction<Review>) => {},
+    createMovieReviewLoading: (state, action: PayloadAction<boolean>) => {
+      state.createMovieReviewLoading = action.payload;
+    },
+    setShowcreateMovieReviewModal: (state, action: PayloadAction<boolean>) => {
+      state.showcreateMovieReviewModal = action.payload;
+    },
+    movieReviewsloaded: (state, action: PayloadAction<Array<Review>>) => {
+      state.allMovieReviews = action.payload;
+    },
+    updateReviews: (state, action: PayloadAction<Review>) => {
+      state.allMovieReviews.unshift(action.payload);
     },
     loadError: (state) => {
-      state.fetchData = ["Error Fetching :("];
-    },
-    increment: (state) => {
-      state.value += 1;
-    },
-    epicSideEffect: (state) => {
-      state.sideEffectCount += 1;
+      // state.fetchData = ["Error Fetching :("];
+      alert("error");
     },
   },
 });
 
 export const { actions } = slice;
 export type SliceAction = typeof actions;
+export type { ReviewsState, Review, Movie };
 export default slice.reducer;

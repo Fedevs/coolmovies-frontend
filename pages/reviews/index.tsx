@@ -1,30 +1,38 @@
 import { css } from "@emotion/react";
-import {
-  Button,
-  Paper,
-  TextField,
-  Tooltip,
-  Typography,
-  Zoom,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import type { NextPage } from "next";
 import {
   reviewsActions,
   useAppDispatch,
   useAppSelector,
-  ReviewsState,
-} from "/redux";
+  Review,
+} from "../../redux";
+import { useEffect } from "react";
+import CreateMovieReviewModal from "../../components/CreateMovieReviewModal";
 
 const Reviews: NextPage = () => {
   const dispatch = useAppDispatch();
-  const reviewsState = useAppSelector((state: ReviewsState) => state.reviews);
-  dispatch(reviewsActions.fetchAllReviews()); // find out if it's the right way to get initial data
+  const reviewsState = useAppSelector((state) => state.reviews);
+
+  useEffect(() => {
+    dispatch(reviewsActions.getAllReviews());
+    dispatch(reviewsActions.getCurrentUser());
+    dispatch(reviewsActions.getAllMovies());
+  }, []);
 
   return (
     <div css={styles.root}>
       <h1>Reviews</h1>
-      {reviewsState.fetchData?.allMovieReviews?.nodes.length ? (
-        reviewsState.fetchData?.allMovieReviews?.nodes.map((review, index) => (
+      <Button
+        variant={"contained"}
+        onClick={() =>
+          dispatch(reviewsActions.setShowcreateMovieReviewModal(true))
+        }
+      >
+        Add a review
+      </Button>
+      {reviewsState.allMovieReviews.length ? (
+        reviewsState.allMovieReviews.map((review: Review, index: number) => (
           <div key={review.id}>
             <h2>Review {index + 1}</h2>
             <ul>
@@ -38,17 +46,28 @@ const Reviews: NextPage = () => {
       ) : (
         <div>There's nothing here...</div>
       )}
+
+      {reviewsState.showcreateMovieReviewModal && (
+        <CreateMovieReviewModal
+          open={reviewsState.showcreateMovieReviewModal}
+          onClose={() =>
+            dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+          }
+          movies={reviewsState.movies}
+          dispatch={dispatch}
+          css={styles.modal}
+        ></CreateMovieReviewModal>
+      )}
     </div>
   );
 };
 
 const styles = {
   root: css({
-    height: "100vh",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    padding: "30px",
+  }),
+  modal: css({
+    backgroundColor: "white",
   }),
 };
 
