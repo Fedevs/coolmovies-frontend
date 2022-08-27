@@ -34,7 +34,6 @@ const Reviews: NextPage = () => {
       {reviewsState.allMovieReviews.length ? (
         reviewsState.allMovieReviews.map((review: Review, index: number) => (
           <div key={review.id}>
-            {reviewsState.allMovieReviews.length}
             <h2>Review {index + 1}</h2>
             <ul>
               <li>{review.id}</li>
