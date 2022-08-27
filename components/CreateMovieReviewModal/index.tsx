@@ -2,12 +2,13 @@ import { css } from "@emotion/react";
 import {
   Modal,
   Box,
-  FormControl,
+  Alert,
   Typography,
   Rating,
   Autocomplete,
   TextField,
   Button,
+  Grid,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { FC, SyntheticEvent, useState } from "react";
@@ -57,6 +58,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
     getOptionLabel: (option: Movie) => option.title,
   };
 
+  const formError: boolean = false; //take it from state later
   return (
     <Modal
       open={open}
@@ -68,80 +70,94 @@ const createMovieReviewModal: FC<ModalProps> = ({
         <Typography variant={"h5"} css={styles.title}>
           Rate the movie 🎬​
         </Typography>
-        <FormControl fullWidth css={styles.form}>
-          <Autocomplete
-            {...autocompleteProps}
-            css={styles.formElement}
-            autoComplete
-            disablePortal
-            aria-required
-            isOptionEqualToValue={(option: Movie, value: Movie) =>
-              option.id === value.id
-            }
-            id="movieId"
-            onChange={(event, value) =>
-              setMovieReview({ ...movieReview, movieId: value?.id! })
-            }
-            renderInput={(params) => <TextField {...params} label="Movie" />}
-          />
-
-          <Rating
-            name="rating"
-            size="large"
-            css={styles.rating}
-            defaultValue={movieReview.rating}
-            precision={1}
-            value={+movieReview.rating}
-            onChange={(e) => {
-              const result = (e.target as HTMLInputElement).value;
-              setMovieReview({ ...movieReview, rating: +result });
-            }}
-          />
-          <TextField
-            id="review-title"
-            type="text"
-            label="Title"
-            variant="outlined"
-            name="title"
-            placeholder="It blowed my mind"
-            css={styles.formElement}
-            value={movieReview.title}
-            onChange={onChange}
-            required
-          />
-          <TextField
-            id="review-description"
-            type="text"
-            label="Description"
-            variant="outlined"
-            name="body"
-            placeholder="This movie really made me think about..."
-            css={styles.formElement}
-            value={movieReview.body}
-            onChange={onChange}
-            multiline
-            minRows={3}
-          />
-          <div css={styles.buttonWrapper}>
-            <Button
-              variant="outlined"
-              onClick={() =>
-                dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+        <form onSubmit={onSubmit} css={styles.form}>
+          {formError && (
+            <Alert
+              variant="filled"
+              severity="error"
+              closeText="close"
+              role="alert"
+              sx={{ paddingTop: 0, paddingBottom: 0 }}
+            >
+              Ups! Something's broken, try again!
+            </Alert>
+          )}
+          <Grid container css={styles.formGrid}>
+            <Autocomplete
+              {...autocompleteProps}
+              css={styles.formElement}
+              autoComplete
+              disablePortal
+              aria-required
+              isOptionEqualToValue={(option: Movie, value: Movie) =>
+                option.id === value.id
               }
-            >
-              Cancel
-            </Button>
-            <LoadingButton
-              onClick={onSubmit}
-              type="submit"
-              loading={false}
-              loadingIndicator="Loading…"
+              id="movieId"
+              onChange={(event, value) =>
+                setMovieReview({ ...movieReview, movieId: value?.id! })
+              }
+              renderInput={(params) => (
+                <TextField {...params} label="Movie" required aria-required />
+              )}
+            />
+
+            <Rating
+              name="rating"
+              size="large"
+              css={styles.rating}
+              defaultValue={movieReview.rating}
+              precision={1}
+              value={+movieReview.rating}
+              onChange={(e) => {
+                const result = (e.target as HTMLInputElement).value;
+                setMovieReview({ ...movieReview, rating: +result });
+              }}
+            />
+            <TextField
+              id="review-title"
+              type="text"
+              label="Title"
               variant="outlined"
-            >
-              Send
-            </LoadingButton>
-          </div>
-        </FormControl>
+              name="title"
+              placeholder="It blowed my mind"
+              css={styles.formElement}
+              value={movieReview.title}
+              onChange={onChange}
+              required
+            />
+            <TextField
+              id="review-description"
+              type="text"
+              label="Description"
+              variant="outlined"
+              name="body"
+              placeholder="This movie really made me think about..."
+              css={styles.formElement}
+              value={movieReview.body}
+              onChange={onChange}
+              multiline
+              minRows={3}
+            />
+            <div css={styles.buttonWrapper}>
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+                }
+              >
+                Cancel
+              </Button>
+              <LoadingButton
+                type="submit"
+                loading={false}
+                loadingIndicator="Loading…"
+                variant="outlined"
+              >
+                Send
+              </LoadingButton>
+            </div>
+          </Grid>
+        </form>
       </Box>
     </Modal>
   );
@@ -161,6 +177,9 @@ const styles = {
     padding: "10%",
   }),
   form: css({
+    width: "100%",
+  }),
+  formGrid: css({
     display: "flex",
     flexDirection: "column",
     width: "100%",
