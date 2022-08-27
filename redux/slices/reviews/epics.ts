@@ -1,11 +1,31 @@
 import { Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
-import { filter, switchMap } from "rxjs/operators";
+import { filter, map, switchMap } from "rxjs/operators";
 import { RootState } from "../../store";
 import { EpicDependencies } from "../../types";
 import { actions, SliceAction } from "./slice";
 import ALL_MOVIE_REVIEWS from "../../../assets/graphql/queries/AllMovieReviews";
 import CREATE_MOVIE_REVIEW from "../../../assets/graphql/mutations/CreateMovieReview";
+import CURRENT_USER from "../../../assets/graphql/queries/CurrentUser";
+
+export const getCurrentUser: Epic = (
+  action$: Observable<SliceAction["getCurrentUser"]>,
+  state$: StateObservable<RootState>,
+  { client }: EpicDependencies
+) =>
+  action$.pipe(
+    filter(actions.getCurrentUser.match),
+    switchMap(async () => {
+      try {
+        const { data } = await client.query({
+          query: CURRENT_USER,
+        });
+        return actions.updateUser(data.currentUser);
+      } catch (err) {
+        return actions.loadError();
+      }
+    })
+  );
 
 export const fetchAllReviewsEpic: Epic = (
   action$: Observable<SliceAction["fetchAllReviews"]>,
@@ -39,7 +59,10 @@ export const createMovieReviewEpic: Epic = (
           mutation: CREATE_MOVIE_REVIEW,
           variables: {
             input: {
-              movieReview: action.payload,
+              movieReview: {
+                ...action.payload,
+                userReviewerId: state$.value.reviews.user.id,
+              },
             },
           },
         });

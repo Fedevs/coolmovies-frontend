@@ -5,16 +5,18 @@ import {
   reviewsActions,
   useAppDispatch,
   useAppSelector,
-  ReviewsState,
+  Review,
 } from "../../redux";
 import { useEffect } from "react";
 import CreateMovieReviewModal from "../../components/CreateMovieReviewModal";
 
 const Reviews: NextPage = () => {
   const dispatch = useAppDispatch();
-  const reviewsState = useAppSelector((state: ReviewsState) => state.reviews);
+  const reviewsState = useAppSelector((state) => state.reviews);
+
   useEffect(() => {
     dispatch(reviewsActions.fetchAllReviews());
+    dispatch(reviewsActions.getCurrentUser());
   }, []);
 
   return (
@@ -29,7 +31,7 @@ const Reviews: NextPage = () => {
         Add a review
       </Button>
       {reviewsState.allMovieReviews.length ? (
-        reviewsState.allMovieReviews.map((review, index) => (
+        reviewsState.allMovieReviews.map((review: Review, index: number) => (
           <div key={review.id}>
             {reviewsState.allMovieReviews.length}
             <h2>Review {index + 1}</h2>

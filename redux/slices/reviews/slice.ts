@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ReviewsState, Review } from "./types";
+import { ReviewsState, Review, User } from "./types";
 
 const initialState: ReviewsState = {
   value: 0,
@@ -7,6 +7,7 @@ const initialState: ReviewsState = {
   showcreateMovieReviewModal: false,
   createMovieReviewLoading: false,
   allMovieReviews: [],
+  user: { id: "", name: "" },
 };
 
 export const slice = createSlice({
@@ -14,6 +15,10 @@ export const slice = createSlice({
   name: "reviews",
   reducers: {
     fetchAllReviews: () => {},
+    getCurrentUser: () => {},
+    updateUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    },
     createMovieReview: (state, action: PayloadAction<Review>) => {},
     createMovieReviewLoading: (state, action: PayloadAction<boolean>) => {
       state.createMovieReviewLoading = action.payload;
@@ -28,7 +33,8 @@ export const slice = createSlice({
       state.allMovieReviews.unshift(action.payload);
     },
     loadError: (state) => {
-      state.fetchData = ["Error Fetching :("];
+      // state.fetchData = ["Error Fetching :("];
+      alert("error");
     },
   },
 });

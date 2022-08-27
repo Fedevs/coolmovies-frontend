@@ -22,7 +22,7 @@ const initialMovieReviewValues: Review = {
   body: "",
   rating: 5,
   movieId: "",
-  userReviewerId: "5f1e6707-7c3a-4acd-b11f-fd96096abd5a",
+  userReviewerId: "",
 };
 
 const createMovieReviewModal: FC<ModalProps> = ({
@@ -31,10 +31,6 @@ const createMovieReviewModal: FC<ModalProps> = ({
 }: ModalProps) => {
   const dispatch = useAppDispatch();
   const [movieReview, setMovieReview] = useState(initialMovieReviewValues);
-  useEffect(() => {
-    // dispatch(reviewsActions.fetchAllMovies());
-    // dispatch(reviewsActions.fetchCurrentUser());
-  }, []);
 
   const onChange = (
     event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -5,7 +5,6 @@ const CURRENT_USER = gql`
     currentUser {
       id
       name
-      nodeId
     }
   }
 `;
