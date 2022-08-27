@@ -10,20 +10,12 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { FC, SyntheticEvent, useEffect, useState } from "react";
-import { useAppDispatch, reviewsActions } from "../../redux";
+import { useAppDispatch, reviewsActions, Review } from "../../redux";
 
 type ModalProps = {
   open: boolean;
   onClose: () => {};
 };
-
-interface Review {
-  title: string;
-  body?: string;
-  rating: number;
-  movieId: string;
-  userReviewerId: string;
-}
 
 const initialMovieReviewValues: Review = {
   title: "",
@@ -33,7 +25,10 @@ const initialMovieReviewValues: Review = {
   userReviewerId: "5f1e6707-7c3a-4acd-b11f-fd96096abd5a",
 };
 
-const AddMovieReviewModal: FC<ModalProps> = ({ open, onClose }: ModalProps) => {
+const createMovieReviewModal: FC<ModalProps> = ({
+  open,
+  onClose,
+}: ModalProps) => {
   const dispatch = useAppDispatch();
   const [movieReview, setMovieReview] = useState(initialMovieReviewValues);
   useEffect(() => {
@@ -49,9 +44,9 @@ const AddMovieReviewModal: FC<ModalProps> = ({ open, onClose }: ModalProps) => {
   };
 
   const onSubmit = () => {
-    dispatch(reviewsActions.addMovieReview(movieReview));
+    dispatch(reviewsActions.createMovieReview(movieReview));
     setMovieReview(initialMovieReviewValues);
-    dispatch(reviewsActions.setShowAddMovieReviewModal(false));
+    dispatch(reviewsActions.setShowcreateMovieReviewModal(false));
   };
 
   interface Movie {
@@ -133,7 +128,14 @@ const AddMovieReviewModal: FC<ModalProps> = ({ open, onClose }: ModalProps) => {
             minRows={3}
           />
           <div css={styles.buttonWrapper}>
-            <Button variant="outlined">Cancel</Button>
+            <Button
+              variant="outlined"
+              onClick={() =>
+                dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+              }
+            >
+              Cancel
+            </Button>
             <LoadingButton
               onClick={onSubmit}
               type="submit"
@@ -153,7 +155,7 @@ const AddMovieReviewModal: FC<ModalProps> = ({ open, onClose }: ModalProps) => {
 const styles = {
   modal: css({
     alignItems: "center",
-    backgroundColor: "#e7e7e7",
+    backgroundColor: "#f7f7f7",
     display: "flex",
     flexDirection: "column",
     height: "100%",
@@ -172,4 +174,4 @@ const styles = {
   }),
 };
 
-export default AddMovieReviewModal;
+export default createMovieReviewModal;

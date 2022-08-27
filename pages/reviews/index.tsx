@@ -6,9 +6,9 @@ import {
   useAppDispatch,
   useAppSelector,
   ReviewsState,
-} from "/redux";
+} from "../../redux";
 import { useEffect } from "react";
-import AddMovieReviewModal from "../../components/AddMovieReviewModal";
+import CreateMovieReviewModal from "../../components/CreateMovieReviewModal";
 
 const Reviews: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const Reviews: NextPage = () => {
       <Button
         variant={"contained"}
         onClick={() =>
-          dispatch(reviewsActions.setShowAddMovieReviewModal(true))
+          dispatch(reviewsActions.setShowcreateMovieReviewModal(true))
         }
       >
         Add a review
@@ -45,13 +45,13 @@ const Reviews: NextPage = () => {
         <div>There's nothing here...</div>
       )}
 
-      <AddMovieReviewModal
-        open={reviewsState.showAddMovieReviewModal}
+      <CreateMovieReviewModal
+        open={reviewsState.showcreateMovieReviewModal}
         onClose={() =>
-          dispatch(reviewsActions.setShowAddMovieReviewModal(false))
+          dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
         }
         css={styles.modal}
-      ></AddMovieReviewModal>
+      ></CreateMovieReviewModal>
     </div>
   );
 };

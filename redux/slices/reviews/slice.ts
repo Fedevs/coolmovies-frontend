@@ -1,18 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface ReviewsState {
-  value: number;
-  sideEffectCount: number;
-  showAddMovieReviewModal: boolean;
-  createMovieReviewLoading: boolean;
-  allMovieReviews: any;
-  fetchData?: any;
-}
+import { ReviewsState, Review } from "./types";
 
 const initialState: ReviewsState = {
   value: 0,
   sideEffectCount: 0,
-  showAddMovieReviewModal: false,
+  showcreateMovieReviewModal: false,
   createMovieReviewLoading: false,
   allMovieReviews: [],
 };
@@ -22,35 +14,26 @@ export const slice = createSlice({
   name: "reviews",
   reducers: {
     fetchAllReviews: () => {},
-    addMovieReview: (state, action: PayloadAction<object>) => {},
+    createMovieReview: (state, action: PayloadAction<Review>) => {},
     createMovieReviewLoading: (state, action: PayloadAction<boolean>) => {
       state.createMovieReviewLoading = action.payload;
     },
-    setShowAddMovieReviewModal: (state, action: PayloadAction<boolean>) => {
-      state.showAddMovieReviewModal = action.payload;
+    setShowcreateMovieReviewModal: (state, action: PayloadAction<boolean>) => {
+      state.showcreateMovieReviewModal = action.payload;
     },
-    fetch: () => {},
-    clearData: (state) => {
-      state.fetchData = undefined;
-    },
-    loaded: (state, action: PayloadAction<any>) => {
+    movieReviewsloaded: (state, action: PayloadAction<Array<Review>>) => {
       state.allMovieReviews = action.payload;
     },
-    updateReviews: (state, action: PayloadAction<any>) => {
+    updateReviews: (state, action: PayloadAction<Review>) => {
       state.allMovieReviews.unshift(action.payload);
     },
     loadError: (state) => {
       state.fetchData = ["Error Fetching :("];
-    },
-    increment: (state) => {
-      state.value += 1;
-    },
-    epicSideEffect: (state) => {
-      state.sideEffectCount += 1;
     },
   },
 });
 
 export const { actions } = slice;
 export type SliceAction = typeof actions;
+export type { ReviewsState, Review };
 export default slice.reducer;

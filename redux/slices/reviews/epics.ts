@@ -1,21 +1,11 @@
 import { Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
-import { filter, map, switchMap } from "rxjs/operators";
+import { filter, switchMap } from "rxjs/operators";
 import { RootState } from "../../store";
 import { EpicDependencies } from "../../types";
 import { actions, SliceAction } from "./slice";
 import ALL_MOVIE_REVIEWS from "../../../assets/graphql/queries/AllMovieReviews";
 import CREATE_MOVIE_REVIEW from "../../../assets/graphql/mutations/CreateMovieReview";
-
-export const reviewsEpic: Epic = (
-  action$: Observable<SliceAction["increment"]>,
-  state$: StateObservable<RootState>
-) =>
-  action$.pipe(
-    filter(actions.increment.match),
-    filter(() => Boolean(state$.value.reviews.value % 2)),
-    map(() => actions.epicSideEffect())
-  );
 
 export const fetchAllReviewsEpic: Epic = (
   action$: Observable<SliceAction["fetchAllReviews"]>,
@@ -29,20 +19,20 @@ export const fetchAllReviewsEpic: Epic = (
         const result = await client.query({
           query: ALL_MOVIE_REVIEWS,
         });
-        return actions.loaded(result.data.allMovieReviews.nodes);
+        return actions.movieReviewsloaded(result.data.allMovieReviews.nodes);
       } catch (err) {
         return actions.loadError();
       }
     })
   );
 
-export const addMovieReviewEpic: Epic = (
-  action$: Observable<SliceAction["addMovieReview"]>,
+export const createMovieReviewEpic: Epic = (
+  action$: Observable<SliceAction["createMovieReview"]>,
   state$: StateObservable<RootState>,
   { client }: EpicDependencies
 ) => {
   return action$.pipe(
-    filter(actions.addMovieReview.match),
+    filter(actions.createMovieReview.match),
     switchMap(async (action) => {
       try {
         const result = await client.mutate({
