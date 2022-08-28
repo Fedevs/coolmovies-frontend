@@ -21,7 +21,6 @@ import {
   useAppDispatch,
   Review,
   useAppSelector,
-  Movie,
 } from "../../redux";
 
 type ModalProps = {
@@ -216,6 +215,10 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     padding: "10px",
+    maxWidth: "480px",
+    "@media(min-width: 480px)": {
+      margin: "30px auto",
+    },
   }),
   title: css({
     padding: "10%",

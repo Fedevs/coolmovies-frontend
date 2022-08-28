@@ -38,30 +38,35 @@ const Reviews: NextPage = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container css={styles.root}>
-        {reviewsState.allMovieReviews.length ? (
-          reviewsState.allMovieReviews.map((review: Review) => (
-            <MovieReviewCard review={review} key={review.id}></MovieReviewCard>
-          ))
-        ) : (
-          <div>There's nothing here...</div>
-        )}
+      <div css={styles.root}>
+        <Container css={styles.container}>
+          {reviewsState.allMovieReviews.length ? (
+            reviewsState.allMovieReviews.map((review: Review) => (
+              <MovieReviewCard
+                review={review}
+                key={review.id}
+              ></MovieReviewCard>
+            ))
+          ) : (
+            <div>There's nothing here...</div>
+          )}
 
-        {reviewsState.movieReviewModalStatus && (
-          <MovieReviewModal
-            open={reviewsState.movieReviewModalStatus.open}
-          ></MovieReviewModal>
-        )}
+          {reviewsState.movieReviewModalStatus && (
+            <MovieReviewModal
+              open={reviewsState.movieReviewModalStatus.open}
+            ></MovieReviewModal>
+          )}
 
-        <Fab
-          color="primary"
-          size="large"
-          css={styles.addReviewButton}
-          onClick={openModal}
-        >
-          <Image src={addIcon}></Image>
-        </Fab>
-      </Container>
+          <Fab
+            color="primary"
+            size="large"
+            css={styles.addReviewButton}
+            onClick={openModal}
+          >
+            <Image src={addIcon}></Image>
+          </Fab>
+        </Container>
+      </div>
     </ThemeProvider>
   );
 };
@@ -69,8 +74,13 @@ const Reviews: NextPage = () => {
 const styles = {
   root: css({
     backgroundColor: "#C5CAE9",
-    paddingBottom: "10px",
-    paddingTop: "10px",
+  }),
+  container: css({
+    margin: "auto",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gap: "10px",
+    padding: "10px auto",
   }),
   addReviewButton: css({
     bottom: "10px",

@@ -24,7 +24,7 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
   const reviewsState = useAppSelector((state) => state.reviews);
 
   const [expanded, setExpanded] = useState(false);
-  const largeDescription: boolean = review.body?.length > 140;
+  const largeDescription: boolean = review.body?.length! > 140;
   const showEditButton: boolean =
     reviewsState.user.id === review.userByUserReviewerId?.id;
 
