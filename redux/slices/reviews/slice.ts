@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ReviewsState, Review, User, Movie } from "./types";
+import { ReviewsState, Review, User, Movie, ModalStep } from "./types";
 
 const initialState: ReviewsState = {
-  showcreateMovieReviewModal: false,
+  showcreateMovieReviewModal: { open: false },
   createMovieReviewLoading: false,
   allMovieReviews: [],
   movies: [],
@@ -23,10 +23,13 @@ export const slice = createSlice({
       state.user = action.payload;
     },
     createMovieReview: (state, action: PayloadAction<Review>) => {},
-    createMovieReviewLoading: (state, action: PayloadAction<boolean>) => {
+    createMovieReviewLoading: (state, action: PayloadAction<ModalStep>) => {
       state.createMovieReviewLoading = action.payload;
     },
-    setShowcreateMovieReviewModal: (state, action: PayloadAction<boolean>) => {
+    setShowcreateMovieReviewModal: (
+      state,
+      action: PayloadAction<ModalStep>
+    ) => {
       state.showcreateMovieReviewModal = action.payload;
     },
     movieReviewsloaded: (state, action: PayloadAction<Array<Review>>) => {

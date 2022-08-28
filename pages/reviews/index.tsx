@@ -45,9 +45,11 @@ const Reviews: NextPage = () => {
 
         {reviewsState.showcreateMovieReviewModal && (
           <CreateMovieReviewModal
-            open={reviewsState.showcreateMovieReviewModal}
+            open={reviewsState.showcreateMovieReviewModal.open}
             onClose={() =>
-              dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+              dispatch(
+                reviewsActions.setShowcreateMovieReviewModal({ open: false })
+              )
             }
             movies={reviewsState.movies}
             dispatch={dispatch}
@@ -59,7 +61,12 @@ const Reviews: NextPage = () => {
           size="large"
           css={styles.addReviewButton}
           onClick={() =>
-            dispatch(reviewsActions.setShowcreateMovieReviewModal(true))
+            dispatch(
+              reviewsActions.setShowcreateMovieReviewModal({
+                open: true,
+                step: "create",
+              })
+            )
           }
         >
           <Image src={addIcon}></Image>

@@ -5,12 +5,15 @@ import {
   Typography,
   Card,
   CardContent,
-  CardActionArea,
   CardMedia,
   Button,
+  IconButton,
 } from "@mui/material";
 import { FC, Fragment, useState } from "react";
 import { Review } from "../../redux";
+import Image from "next/image";
+import editIcon from "../../public/edit.svg";
+import { useAppSelector, reviewsActions, useAppDispatch } from "../../redux";
 
 interface MovieReviewCardProps {
   review: Review;
@@ -19,84 +22,100 @@ interface MovieReviewCardProps {
 const MovieReviewCard: FC<MovieReviewCardProps> = ({
   review: { movieByMovieId, rating, body, userByUserReviewerId, title },
 }) => {
+  const dispatch = useAppDispatch();
+  const reviewsState = useAppSelector((state) => state.reviews);
+
   const [expanded, setExpanded] = useState(false);
   const largeDescription: boolean = body?.length > 140;
+  const showEditButton: boolean =
+    reviewsState.user.id === userByUserReviewerId?.id;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const handleEdit = () => {
+    dispatch(
+      reviewsActions.setShowcreateMovieReviewModal({ open: true, step: "edit" })
+    );
+  };
+
   return (
     <Card css={styles.card}>
-      <Typography
-        gutterBottom
-        variant="h6"
-        component="div"
-        align="center"
-        css={styles.movieTitle}
-      >
-        {movieByMovieId?.title}
-      </Typography>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="180"
-          image={movieByMovieId?.imgUrl}
-          alt={movieByMovieId?.title}
+      <CardContent>
+        {showEditButton && (
+          <IconButton
+            aria-label="edit"
+            css={styles.editIcon}
+            onClick={handleEdit}
+          >
+            <Image src={editIcon} width={20} height={20}></Image>
+          </IconButton>
+        )}
+        <Typography gutterBottom variant="h6" component="div" align="center">
+          {movieByMovieId?.title}
+        </Typography>
+      </CardContent>
+      <CardMedia
+        component="img"
+        height="180"
+        image={movieByMovieId?.imgUrl}
+        alt={movieByMovieId?.title}
+      />
+      <CardContent>
+        <Rating
+          name="rating"
+          value={rating}
+          readOnly
+          size="large"
+          css={styles.rating}
         />
-
-        <CardContent>
-          <Rating
-            name="rating"
-            value={rating}
-            readOnly
-            size="large"
-            css={styles.rating}
-          />
-          <Typography gutterBottom variant="h6" component="div" align="center">
-            {title}
-          </Typography>
-          {body ? (
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                <b>{userByUserReviewerId?.name}:&nbsp;</b>
-                {expanded ? (
-                  <Fragment>
-                    "{body}"
+        <Typography gutterBottom variant="h6" component="div" align="center">
+          {title}
+        </Typography>
+        {body ? (
+          <Box>
+            <Typography variant="body2" color="text.secondary">
+              <b>{userByUserReviewerId?.name}:&nbsp;</b>
+              {expanded ? (
+                <Fragment>
+                  "{body}"
+                  <Button size="small" onClick={handleExpandClick}>
+                    Read less
+                  </Button>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {`"${body.slice(0, 140)}${largeDescription ? "..." : ""}"`}
+                  {largeDescription && (
                     <Button size="small" onClick={handleExpandClick}>
-                      Read less
+                      Read more
                     </Button>
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    {`"${body.slice(0, 140)}${largeDescription ? "..." : ""}"`}
-                    {largeDescription && (
-                      <Button size="small" onClick={handleExpandClick}>
-                        Read more
-                      </Button>
-                    )}
-                  </Fragment>
-                )}
-              </Typography>
-            </Box>
-          ) : (
-            <Typography variant="body2" css={styles.userName}>
-              <b>{userByUserReviewerId?.name}</b>
+                  )}
+                </Fragment>
+              )}
             </Typography>
-          )}
-        </CardContent>
-      </CardActionArea>
+          </Box>
+        ) : (
+          <Typography variant="body2" css={styles.userName}>
+            <b>{userByUserReviewerId?.name}</b>
+          </Typography>
+        )}
+      </CardContent>
     </Card>
   );
 };
 
 const styles = {
   card: css({
+    position: "relative",
     marginBottom: "10px",
   }),
-  movieTitle: css({
-    paddingTop: "5px",
-    textAlign: "center",
+  editIcon: css({
+    position: "absolute",
+    padding: 0,
+    top: "2px",
+    right: "2px",
   }),
   rating: css({
     display: "flex",

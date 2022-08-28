@@ -50,7 +50,11 @@ const createMovieReviewModal: FC<ModalProps> = ({
   const onSubmit = () => {
     dispatch(reviewsActions.createMovieReview(movieReview));
     setMovieReview(initialMovieReviewValues);
-    dispatch(reviewsActions.setShowcreateMovieReviewModal(false));
+    dispatch(
+      reviewsActions.setShowcreateMovieReviewModal({
+        open: false,
+      })
+    );
   };
 
   const autocompleteProps = {
@@ -142,7 +146,11 @@ const createMovieReviewModal: FC<ModalProps> = ({
               <Button
                 variant="outlined"
                 onClick={() =>
-                  dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
+                  dispatch(
+                    reviewsActions.setShowcreateMovieReviewModal({
+                      open: false,
+                    })
+                  )
                 }
               >
                 Cancel
