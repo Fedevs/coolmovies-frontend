@@ -7,11 +7,13 @@ import {
   createMovieReviewEpic,
   getCurrentUserEpic,
   getAllMoviesEpic,
+  updateMovieReviewEpic,
 } from "./epics";
 
 export const reviewsEpics = combineEpics(
   getAllReviewsEpic,
   createMovieReviewEpic,
   getCurrentUserEpic,
-  getAllMoviesEpic
+  getAllMoviesEpic,
+  updateMovieReviewEpic
 );

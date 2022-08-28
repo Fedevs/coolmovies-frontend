@@ -1,6 +1,11 @@
+export interface ModalStep {
+  open: boolean;
+  review?: Review;
+}
+
 export interface ReviewsState {
   allMovieReviews: Array<Review>;
-  showcreateMovieReviewModal: boolean;
+  movieReviewModalStatus: ModalStep;
   createMovieReviewLoading: boolean;
   user: User;
   movies: Array<Movie>;

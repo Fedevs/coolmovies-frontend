@@ -10,7 +10,7 @@ import {
   useAppSelector,
   Review,
 } from "../../redux";
-import CreateMovieReviewModal from "../../components/CreateMovieReviewModal";
+import MovieReviewModal from "../../components/MovieReviewModal";
 import MovieReviewCard from "../../components/MovieReviewCard";
 import addIcon from "../../public/add.svg";
 
@@ -32,6 +32,10 @@ const Reviews: NextPage = () => {
     dispatch(reviewsActions.getAllMovies());
   }, []);
 
+  const openModal = () => {
+    dispatch(reviewsActions.setMovieReviewModalStatus({ open: true }));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container css={styles.root}>
@@ -43,24 +47,17 @@ const Reviews: NextPage = () => {
           <div>There's nothing here...</div>
         )}
 
-        {reviewsState.showcreateMovieReviewModal && (
-          <CreateMovieReviewModal
-            open={reviewsState.showcreateMovieReviewModal}
-            onClose={() =>
-              dispatch(reviewsActions.setShowcreateMovieReviewModal(false))
-            }
-            movies={reviewsState.movies}
-            dispatch={dispatch}
-          ></CreateMovieReviewModal>
+        {reviewsState.movieReviewModalStatus && (
+          <MovieReviewModal
+            open={reviewsState.movieReviewModalStatus.open}
+          ></MovieReviewModal>
         )}
 
         <Fab
           color="primary"
           size="large"
           css={styles.addReviewButton}
-          onClick={() =>
-            dispatch(reviewsActions.setShowcreateMovieReviewModal(true))
-          }
+          onClick={openModal}
         >
           <Image src={addIcon}></Image>
         </Fab>

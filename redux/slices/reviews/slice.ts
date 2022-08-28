@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ReviewsState, Review, User, Movie } from "./types";
+import { ReviewsState, Review, User, Movie, ModalStep } from "./types";
 
 const initialState: ReviewsState = {
-  showcreateMovieReviewModal: false,
   createMovieReviewLoading: false,
+  movieReviewModalStatus: { open: false },
   allMovieReviews: [],
   movies: [],
   user: { id: "", name: "" },
@@ -17,26 +17,18 @@ export const slice = createSlice({
     moviesLoaded: (state, action: PayloadAction<Array<Movie>>) => {
       state.movies = action.payload;
     },
-    getAllReviews: () => {},
     getCurrentUser: () => {},
     updateUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    getAllReviews: () => {},
     createMovieReview: (state, action: PayloadAction<Review>) => {},
-    createMovieReviewLoading: (state, action: PayloadAction<boolean>) => {
-      state.createMovieReviewLoading = action.payload;
-    },
-    setShowcreateMovieReviewModal: (state, action: PayloadAction<boolean>) => {
-      state.showcreateMovieReviewModal = action.payload;
-    },
     movieReviewsloaded: (state, action: PayloadAction<Array<Review>>) => {
       state.allMovieReviews = action.payload;
     },
-    updateReviews: (state, action: PayloadAction<Review>) => {
-      const { payload } = action;
-      const { id, name } = state.user;
-      const newReview = { ...payload, userByUserReviewerId: { id, name } };
-      state.allMovieReviews.unshift(newReview);
+    updateMovieReview: (state, action: PayloadAction<Review>) => {},
+    setMovieReviewModalStatus: (state, action: PayloadAction<ModalStep>) => {
+      state.movieReviewModalStatus = action.payload;
     },
     loadError: (state) => {
       // state.fetchData = ["Error Fetching :("];

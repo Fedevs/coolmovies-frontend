@@ -9,6 +9,7 @@ import {
   ALL_MOVIE_REVIEWS,
   CURRENT_USER,
   CREATE_MOVIE_REVIEW,
+  UPDATE_MOVIE_REVIEW,
 } from "../../../assets/graphql";
 
 export const getAllMoviesEpic: Epic = (
@@ -60,6 +61,7 @@ export const getAllReviewsEpic: Epic = (
       try {
         const result = await client.query({
           query: ALL_MOVIE_REVIEWS,
+          fetchPolicy: "network-only",
         });
         return actions.movieReviewsloaded(result.data.allMovieReviews.nodes);
       } catch (err) {
@@ -88,7 +90,30 @@ export const createMovieReviewEpic: Epic = (
             },
           },
         });
-        return actions.updateReviews(result.data.createMovieReview.movieReview);
+        return actions.getAllReviews();
+      } catch (err) {
+        return actions.loadError();
+      }
+    })
+  );
+};
+
+export const updateMovieReviewEpic: Epic = (
+  action$: Observable<SliceAction["updateMovieReview"]>,
+  state$: StateObservable<RootState>,
+  { client }: EpicDependencies
+) => {
+  return action$.pipe(
+    filter(actions.updateMovieReview.match),
+    switchMap(async (action) => {
+      try {
+        const result = await client.mutate({
+          mutation: UPDATE_MOVIE_REVIEW,
+          variables: {
+            input: { ...action.payload },
+          },
+        });
+        return actions.getAllReviews();
       } catch (err) {
         return actions.loadError();
       }
