@@ -17,26 +17,18 @@ export const slice = createSlice({
     moviesLoaded: (state, action: PayloadAction<Array<Movie>>) => {
       state.movies = action.payload;
     },
-    getAllReviews: () => {},
     getCurrentUser: () => {},
     updateUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    getAllReviews: () => {},
     createMovieReview: (state, action: PayloadAction<Review>) => {},
-    createMovieReviewLoading: (state, action: PayloadAction<ModalStep>) => {
-      state.createMovieReviewLoading = action.payload;
-    },
-    setShowMovieReviewModal: (state, action: PayloadAction<ModalStep>) => {
-      state.showMovieReviewModal = action.payload;
-    },
     movieReviewsloaded: (state, action: PayloadAction<Array<Review>>) => {
       state.allMovieReviews = action.payload;
     },
-    updateReviews: (state, action: PayloadAction<Review>) => {
-      const { payload } = action;
-      const { id, name } = state.user;
-      const newReview = { ...payload, userByUserReviewerId: { id, name } };
-      state.allMovieReviews.unshift(newReview);
+    updateMovieReview: (state, action: PayloadAction<Review>) => {},
+    setShowMovieReviewModal: (state, action: PayloadAction<ModalStep>) => {
+      state.showMovieReviewModal = action.payload;
     },
     loadError: (state) => {
       // state.fetchData = ["Error Fetching :("];

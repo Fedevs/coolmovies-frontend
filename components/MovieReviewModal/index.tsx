@@ -65,10 +65,30 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
     setMovieReview({ ...movieReview, [name]: value });
   };
 
-  const onSubmit = () => {
-    dispatch(reviewsActions.createMovieReview(movieReview));
-    setMovieReview(initialMovieReviewValues);
-    closeModal();
+  const onSubmit = async () => {
+    const { action, payloadReview } = getCreateOrEdit();
+    const { payload } = await dispatch(reviewsActions[action](payloadReview));
+    if (Object.keys(payload).length) {
+      closeModal();
+    } else {
+      console.log("error");
+    }
+  };
+
+  const getCreateOrEdit = () => {
+    let dispatchAction, payload;
+    if (isEdition) {
+      dispatchAction = "updateMovieReview";
+      payload = {
+        nodeId: reviewsState.showMovieReviewModal.review.nodeId,
+        movieReviewPatch: { ...movieReview },
+      };
+    } else {
+      dispatchAction = "createMovieReview";
+      payload = movieReview;
+    }
+
+    return { action: dispatchAction, payloadReview: payload };
   };
 
   const onClose = () => {
@@ -76,17 +96,12 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
   };
 
   const closeModal = () => {
-    resetState();
+    resetForm();
     dispatch(reviewsActions.setShowMovieReviewModal({ open: false }));
   };
 
-  const resetState = () => {
+  const resetForm = () => {
     setMovieReview(initialMovieReviewValues);
-  };
-
-  const autocompleteProps = {
-    options: reviewsState.movies,
-    getOptionLabel: (option: Movie) => option.title,
   };
 
   const formError: boolean = false; //take it from state later
