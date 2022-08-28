@@ -22,6 +22,7 @@ import {
   Review,
   useAppSelector,
 } from "../../redux";
+import { colors } from "../../styles/customStyles";
 
 type ModalProps = {
   open: boolean;
@@ -167,6 +168,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
               label="Title"
               variant="outlined"
               name="title"
+              inputProps={{ maxLength: 35 }}
               placeholder="It blowed my mind"
               css={styles.formElement}
               value={movieReview.title}
@@ -194,7 +196,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
                 type="submit"
                 loading={false}
                 loadingIndicator="Loading…"
-                variant="outlined"
+                variant="contained"
               >
                 Send
               </LoadingButton>
@@ -210,8 +212,9 @@ const styles = {
   box: css({
     margin: "30px 10px",
     alignItems: "center",
-    backgroundColor: "#f7f7f7",
-    borderRadius: "6px",
+    backgroundColor: `${colors.white}`,
+    borderRadius: "30px 0px 30px 0px",
+    boxShadow: `-1px 1px 10px ${colors.primary}`,
     display: "flex",
     flexDirection: "column",
     padding: "10px",
@@ -221,6 +224,7 @@ const styles = {
     },
   }),
   title: css({
+    color: `${colors.primary}`,
     padding: "10%",
   }),
   form: css({

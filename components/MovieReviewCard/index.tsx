@@ -14,6 +14,7 @@ import { Review } from "../../redux";
 import Image from "next/image";
 import editIcon from "../../public/edit.svg";
 import { useAppSelector, reviewsActions, useAppDispatch } from "../../redux";
+import { colors, fonts } from "../../styles/customStyles";
 
 interface MovieReviewCardProps {
   review: Review;
@@ -48,8 +49,14 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
             <Image src={editIcon} width={20} height={20}></Image>
           </IconButton>
         )}
-        <Typography gutterBottom variant="h6" component="div" align="center">
-          {review.movieByMovieId?.title}
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="div"
+          align="center"
+          sx={{ color: `${colors.primary}`, fontFamily: `${fonts.secondary}` }}
+        >
+          <b>{review.movieByMovieId?.title}</b>
         </Typography>
       </CardContent>
       <CardMedia
@@ -66,11 +73,17 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
           size="large"
           css={styles.rating}
         />
-        <Typography gutterBottom variant="h6" component="div" align="center">
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="div"
+          align="center"
+          sx={{ overflowWrap: "break-word" }}
+        >
           {review.title}
         </Typography>
         {review.body ? (
-          <Box>
+          <Box sx={{ overflowWrap: "break-word" }}>
             <Typography variant="body2" color="text.secondary">
               <b>{review.userByUserReviewerId?.name}:&nbsp;</b>
               {expanded ? (
@@ -108,6 +121,8 @@ const styles = {
   card: css({
     position: "relative",
     marginBottom: "10px",
+    borderRadius: "30px 0px 30px 0px",
+    boxShadow: `0px 1px 3px  ${colors.primary}`,
   }),
   editIcon: css({
     position: "absolute",
