@@ -33,7 +33,7 @@ const Reviews: NextPage = () => {
   }, []);
 
   const openModal = () => {
-    dispatch(reviewsActions.setShowMovieReviewModal({ open: true }));
+    dispatch(reviewsActions.setMovieReviewModalStatus({ open: true }));
   };
 
   return (
@@ -47,9 +47,9 @@ const Reviews: NextPage = () => {
           <div>There's nothing here...</div>
         )}
 
-        {reviewsState.showMovieReviewModal && (
+        {reviewsState.movieReviewModalStatus && (
           <MovieReviewModal
-            open={reviewsState.showMovieReviewModal.open}
+            open={reviewsState.movieReviewModalStatus.open}
           ></MovieReviewModal>
         )}
 

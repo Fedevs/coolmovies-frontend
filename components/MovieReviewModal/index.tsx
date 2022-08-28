@@ -43,18 +43,18 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
   const [isEdition, setIsEdition] = useState(false);
 
   useEffect(() => {
-    setIsEdition(Boolean(reviewsState.showMovieReviewModal.review));
-    if (Boolean(reviewsState.showMovieReviewModal.review)) {
+    setIsEdition(Boolean(reviewsState.movieReviewModalStatus.review));
+    if (Boolean(reviewsState.movieReviewModalStatus.review)) {
       const {
         title,
         body = "",
         rating,
         movieId,
         userReviewerId,
-      } = reviewsState.showMovieReviewModal.review;
+      } = reviewsState.movieReviewModalStatus.review;
       setMovieReview({ title, body, rating, movieId, userReviewerId });
     }
-  }, [reviewsState.showMovieReviewModal.open]);
+  }, [reviewsState.movieReviewModalStatus.open]);
 
   const onChange = (
     event:
@@ -80,7 +80,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
     if (isEdition) {
       dispatchAction = "updateMovieReview";
       payload = {
-        nodeId: reviewsState.showMovieReviewModal.review.nodeId,
+        nodeId: reviewsState.movieReviewModalStatus.review.nodeId,
         movieReviewPatch: { ...movieReview },
       };
     } else {
@@ -97,7 +97,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
 
   const closeModal = () => {
     resetForm();
-    dispatch(reviewsActions.setShowMovieReviewModal({ open: false }));
+    dispatch(reviewsActions.setMovieReviewModalStatus({ open: false }));
   };
 
   const resetForm = () => {

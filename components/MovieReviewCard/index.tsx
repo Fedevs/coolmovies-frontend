@@ -33,7 +33,7 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
   };
 
   const handleEdit = () => {
-    dispatch(reviewsActions.setShowMovieReviewModal({ open: true, review }));
+    dispatch(reviewsActions.setMovieReviewModalStatus({ open: true, review }));
   };
 
   return (

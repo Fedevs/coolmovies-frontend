@@ -3,7 +3,7 @@ import { ReviewsState, Review, User, Movie, ModalStep } from "./types";
 
 const initialState: ReviewsState = {
   createMovieReviewLoading: false,
-  showMovieReviewModal: { open: false },
+  movieReviewModalStatus: { open: false },
   allMovieReviews: [],
   movies: [],
   user: { id: "", name: "" },
@@ -27,8 +27,8 @@ export const slice = createSlice({
       state.allMovieReviews = action.payload;
     },
     updateMovieReview: (state, action: PayloadAction<Review>) => {},
-    setShowMovieReviewModal: (state, action: PayloadAction<ModalStep>) => {
-      state.showMovieReviewModal = action.payload;
+    setMovieReviewModalStatus: (state, action: PayloadAction<ModalStep>) => {
+      state.movieReviewModalStatus = action.payload;
     },
     loadError: (state) => {
       // state.fetchData = ["Error Fetching :("];

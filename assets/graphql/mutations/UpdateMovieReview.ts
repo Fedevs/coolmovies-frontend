@@ -15,19 +15,4 @@ const UPDATE_MOVIE_REVIEW = gql`
   }
 `;
 
-/*
-{
-  "input": {
-    "nodeId": "",
-    "movieReviewPatch": {
-      "id": "",
-      "body":"",
-      "movieId": "",
-      "rating": "",
-      "title": "",
-      "userReviewerId": ""
-    }
-   }
-} */
-
 export default UPDATE_MOVIE_REVIEW;
