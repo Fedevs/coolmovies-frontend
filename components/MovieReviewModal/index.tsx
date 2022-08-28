@@ -5,23 +5,27 @@ import {
   Alert,
   Typography,
   Rating,
-  Autocomplete,
   TextField,
   Button,
   Grid,
+  InputLabel,
+  FormControl,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { FC, SyntheticEvent, useState } from "react";
-import { AnyAction, Dispatch, ThunkDispatch } from "@reduxjs/toolkit";
-import { reviewsActions, Review, ReviewsState, Movie } from "../../redux";
+import { FC, SyntheticEvent, useEffect, useState } from "react";
+import {
+  reviewsActions,
+  useAppDispatch,
+  Review,
+  useAppSelector,
+  Movie,
+} from "../../redux";
 
 type ModalProps = {
   open: boolean;
-  onClose: () => {};
-  dispatch: Dispatch<AnyAction> &
-    ThunkDispatch<{ reviews: ReviewsState }, null, AnyAction> &
-    ThunkDispatch<{ reviews: ReviewsState }, undefined, AnyAction>;
-  movies: Array<Movie>;
 };
 
 const initialMovieReviewValues: Review = {
@@ -32,16 +36,30 @@ const initialMovieReviewValues: Review = {
   userReviewerId: "",
 };
 
-const createMovieReviewModal: FC<ModalProps> = ({
-  open,
-  onClose,
-  dispatch,
-  movies,
-}: ModalProps) => {
+const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
+  const dispatch = useAppDispatch();
+  const reviewsState = useAppSelector((state) => state.reviews);
   const [movieReview, setMovieReview] = useState(initialMovieReviewValues);
+  const [isEdition, setIsEdition] = useState(false);
+
+  useEffect(() => {
+    setIsEdition(Boolean(reviewsState.showMovieReviewModal.review));
+    if (Boolean(reviewsState.showMovieReviewModal.review)) {
+      const {
+        title,
+        body = "",
+        rating,
+        movieId,
+        userReviewerId,
+      } = reviewsState.showMovieReviewModal.review;
+      setMovieReview({ title, body, rating, movieId, userReviewerId });
+    }
+  }, [reviewsState.showMovieReviewModal.open]);
 
   const onChange = (
-    event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>
+    event:
+      | SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent<string>
   ): void => {
     const { name, value } = event.target as HTMLInputElement;
     setMovieReview({ ...movieReview, [name]: value });
@@ -50,15 +68,24 @@ const createMovieReviewModal: FC<ModalProps> = ({
   const onSubmit = () => {
     dispatch(reviewsActions.createMovieReview(movieReview));
     setMovieReview(initialMovieReviewValues);
-    dispatch(
-      reviewsActions.setShowcreateMovieReviewModal({
-        open: false,
-      })
-    );
+    closeModal();
+  };
+
+  const onClose = () => {
+    closeModal();
+  };
+
+  const closeModal = () => {
+    resetState();
+    dispatch(reviewsActions.setShowMovieReviewModal({ open: false }));
+  };
+
+  const resetState = () => {
+    setMovieReview(initialMovieReviewValues);
   };
 
   const autocompleteProps = {
-    options: movies,
+    options: reviewsState.movies,
     getOptionLabel: (option: Movie) => option.title,
   };
 
@@ -67,12 +94,13 @@ const createMovieReviewModal: FC<ModalProps> = ({
     <Modal
       open={open}
       onClose={onClose}
+      css={{ overflow: "scroll" }}
       aria-labelledby="add-movie-review-modal-title"
       aria-describedby="add-movie-review-modal-description"
     >
       <Box css={styles.box}>
         <Typography variant={"h5"} css={styles.title}>
-          Rate the movie 🎬​
+          <b>{isEdition ? "Edit your review 🖊️​" : "Rate the movie 🎬​"}</b>
         </Typography>
         <form onSubmit={onSubmit} css={styles.form}>
           {formError && (
@@ -87,24 +115,26 @@ const createMovieReviewModal: FC<ModalProps> = ({
             </Alert>
           )}
           <Grid container css={styles.formGrid}>
-            <Autocomplete
-              {...autocompleteProps}
-              css={styles.formElement}
-              autoComplete
-              disablePortal
-              aria-required
-              isOptionEqualToValue={(option: Movie, value: Movie) =>
-                option.id === value.id
-              }
-              id="movieId"
-              onChange={(event, value) =>
-                setMovieReview({ ...movieReview, movieId: value?.id! })
-              }
-              renderInput={(params) => (
-                <TextField {...params} label="Movie" required aria-required />
-              )}
-            />
-
+            <FormControl fullWidth>
+              <InputLabel id="select-movie-label">Movie</InputLabel>
+              <Select
+                labelId="select-movie-label"
+                id="select-movie-labelt"
+                value={movieReview.movieId}
+                label="Movie"
+                name="movieId"
+                onChange={onChange}
+                required
+              >
+                {reviewsState.movies.map((movie) => {
+                  return (
+                    <MenuItem key={movie.id} value={movie.id}>
+                      {movie.title}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
             <Rating
               name="rating"
               size="large"
@@ -143,16 +173,7 @@ const createMovieReviewModal: FC<ModalProps> = ({
               minRows={3}
             />
             <div css={styles.buttonWrapper}>
-              <Button
-                variant="outlined"
-                onClick={() =>
-                  dispatch(
-                    reviewsActions.setShowcreateMovieReviewModal({
-                      open: false,
-                    })
-                  )
-                }
-              >
+              <Button variant="outlined" onClick={onClose}>
                 Cancel
               </Button>
               <LoadingButton
@@ -208,4 +229,4 @@ const styles = {
   }),
 };
 
-export default createMovieReviewModal;
+export default MovieReviewModal;

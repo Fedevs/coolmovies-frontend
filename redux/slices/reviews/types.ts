@@ -1,13 +1,11 @@
-type Step = "create" | "edit";
-
 export interface ModalStep {
   open: boolean;
-  step?: Step;
+  review?: Review;
 }
 
 export interface ReviewsState {
   allMovieReviews: Array<Review>;
-  showcreateMovieReviewModal: ModalStep;
+  showMovieReviewModal: ModalStep;
   createMovieReviewLoading: boolean;
   user: User;
   movies: Array<Movie>;

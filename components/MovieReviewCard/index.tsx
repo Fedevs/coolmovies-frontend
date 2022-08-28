@@ -19,25 +19,21 @@ interface MovieReviewCardProps {
   review: Review;
 }
 
-const MovieReviewCard: FC<MovieReviewCardProps> = ({
-  review: { movieByMovieId, rating, body, userByUserReviewerId, title },
-}) => {
+const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
   const dispatch = useAppDispatch();
   const reviewsState = useAppSelector((state) => state.reviews);
 
   const [expanded, setExpanded] = useState(false);
-  const largeDescription: boolean = body?.length > 140;
+  const largeDescription: boolean = review.body?.length > 140;
   const showEditButton: boolean =
-    reviewsState.user.id === userByUserReviewerId?.id;
+    reviewsState.user.id === review.userByUserReviewerId?.id;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const handleEdit = () => {
-    dispatch(
-      reviewsActions.setShowcreateMovieReviewModal({ open: true, step: "edit" })
-    );
+    dispatch(reviewsActions.setShowMovieReviewModal({ open: true, review }));
   };
 
   return (
@@ -53,40 +49,42 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({
           </IconButton>
         )}
         <Typography gutterBottom variant="h6" component="div" align="center">
-          {movieByMovieId?.title}
+          {review.movieByMovieId?.title}
         </Typography>
       </CardContent>
       <CardMedia
         component="img"
         height="180"
-        image={movieByMovieId?.imgUrl}
-        alt={movieByMovieId?.title}
+        image={review.movieByMovieId?.imgUrl}
+        alt={review.movieByMovieId?.title}
       />
       <CardContent>
         <Rating
           name="rating"
-          value={rating}
+          value={review.rating}
           readOnly
           size="large"
           css={styles.rating}
         />
         <Typography gutterBottom variant="h6" component="div" align="center">
-          {title}
+          {review.title}
         </Typography>
-        {body ? (
+        {review.body ? (
           <Box>
             <Typography variant="body2" color="text.secondary">
-              <b>{userByUserReviewerId?.name}:&nbsp;</b>
+              <b>{review.userByUserReviewerId?.name}:&nbsp;</b>
               {expanded ? (
                 <Fragment>
-                  "{body}"
+                  "{review.body}"
                   <Button size="small" onClick={handleExpandClick}>
                     Read less
                   </Button>
                 </Fragment>
               ) : (
                 <Fragment>
-                  {`"${body.slice(0, 140)}${largeDescription ? "..." : ""}"`}
+                  {`"${review.body.slice(0, 140)}${
+                    largeDescription ? "..." : ""
+                  }"`}
                   {largeDescription && (
                     <Button size="small" onClick={handleExpandClick}>
                       Read more
@@ -98,7 +96,7 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({
           </Box>
         ) : (
           <Typography variant="body2" css={styles.userName}>
-            <b>{userByUserReviewerId?.name}</b>
+            <b>{review.userByUserReviewerId?.name}</b>
           </Typography>
         )}
       </CardContent>
