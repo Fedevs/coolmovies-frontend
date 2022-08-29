@@ -134,8 +134,8 @@ const styles = {
     position: "relative",
     transition: "all .2s ease-in",
     "&:hover": {
-      boxShadow: `4px 5px 10px 0px  ${colors.primary}}`,
       transform: "translate(-5px, -5px)",
+      boxShadow: `4px 5px 10px 0px  ${colors.primary}}`,
     },
   }),
   editIcon: css({
