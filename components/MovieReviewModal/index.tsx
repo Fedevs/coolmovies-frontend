@@ -45,7 +45,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
 
   useEffect(() => {
     setIsEdition(Boolean(reviewsState.movieReviewModalStatus.review));
-    if (Boolean(reviewsState.movieReviewModalStatus.review)) {
+    if (reviewsState.movieReviewModalStatus?.review) {
       const {
         title,
         body = "",
@@ -111,7 +111,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
     <Modal
       open={open}
       onClose={onClose}
-      css={{ overflow: "scroll" }}
+      css={{ overflow: "scroll", marginTop: "7%" }}
       aria-labelledby="add-movie-review-modal-title"
       aria-describedby="add-movie-review-modal-description"
     >
@@ -186,12 +186,13 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
               placeholder="This movie really made me think about..."
               css={styles.formElement}
               value={movieReview.body}
+              inputProps={{ maxLength: 200 }}
               onChange={onChange}
               multiline
               minRows={3}
             />
             <div css={styles.buttonWrapper}>
-              <Button variant="outlined" onClick={onClose}>
+              <Button variant="outlined" onClick={onClose} css={styles.button}>
                 Cancel
               </Button>
               <LoadingButton
@@ -199,6 +200,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
                 loading={false}
                 loadingIndicator="Loading…"
                 variant="contained"
+                css={styles.button}
               >
                 Send
               </LoadingButton>
@@ -215,19 +217,19 @@ const styles = {
     margin: "30px 10px",
     alignItems: "center",
     backgroundColor: `${colors.white}`,
-    borderRadius: "30px 0px 30px 0px",
-    boxShadow: `-1px 1px 10px ${colors.primary}`,
     display: "flex",
     flexDirection: "column",
-    padding: "10px",
+    padding: "15px",
     maxWidth: "480px",
     "@media(min-width: 480px)": {
       margin: "30px auto",
+      padding: "20px 30px",
     },
   }),
   title: css({
     color: `${colors.primary}`,
-    padding: "10%",
+    padding: "20px",
+    marginBottom: "10px",
   }),
   form: css({
     width: "100%",
@@ -250,6 +252,9 @@ const styles = {
     display: "flex",
     margin: "10px 0",
     justifyContent: "space-around",
+  }),
+  button: css({
+    padding: "5px 30px",
   }),
 };
 

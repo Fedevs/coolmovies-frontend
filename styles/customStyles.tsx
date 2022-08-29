@@ -1,10 +1,13 @@
 export const fonts = {
   primary: "Roboto, 'sans-serif'",
-  secondary: "Lato, 'sans-serif'",
+  secondary: "Oswald, 'sans-serif'",
+  bigShoulders: "'Big Shoulders Display', cursive",
 };
 
 export const colors = {
-  primary: "#9c27b0",
+  primary: "#cb422a",
   white: "#f7f7f7",
-  lightPink: "#9c27b0a2",
+  lightBlack: "#29242d",
+  black: "#151217",
+  grey: "#4d4f57",
 };

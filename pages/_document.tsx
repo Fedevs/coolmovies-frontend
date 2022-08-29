@@ -10,7 +10,11 @@ class CustomDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500&display=swap"
             rel="stylesheet"
           ></link>
         </Head>

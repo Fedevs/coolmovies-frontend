@@ -46,7 +46,7 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
             css={styles.editIcon}
             onClick={handleEdit}
           >
-            <Image src={editIcon} width={20} height={20}></Image>
+            <Image src={editIcon} width={25} height={25}></Image>
           </IconButton>
         )}
         <Typography
@@ -54,7 +54,11 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
           variant="h6"
           component="div"
           align="center"
-          sx={{ color: `${colors.primary}`, fontFamily: `${fonts.secondary}` }}
+          sx={{
+            color: `${colors.primary}`,
+            fontFamily: `${fonts.secondary}`,
+            textTransform: "uppercase",
+          }}
         >
           <b>{review.movieByMovieId?.title}</b>
         </Typography>
@@ -121,14 +125,28 @@ const styles = {
   card: css({
     position: "relative",
     marginBottom: "10px",
-    borderRadius: "30px 0px 30px 0px",
-    boxShadow: `0px 1px 3px  ${colors.primary}`,
+    borderRadius: "4px",
+    boxShadow: `6px 5px 10px 0px  ${colors.grey}`,
+    backgroundColor: `${colors.white}`,
+    transition: "all .2s ease-in",
+    "&:hover": {
+      transform: "translate(-5px, -5px)",
+      boxShadow: `4px 5px 10px 0px  ${colors.primary}}`,
+    },
   }),
   editIcon: css({
     position: "absolute",
-    padding: 0,
-    top: "2px",
-    right: "2px",
+    top: "17px",
+    right: "-2px",
+    backgroundColor: `${colors.primary}`,
+    borderTopLeftRadius: "5px",
+    borderBottomLeftRadius: "5px",
+    borderTopRightRadius: "0px",
+    borderBottomRightRadius: "0px",
+    padding: "5px 10px",
+    "&:hover": {
+      backgroundColor: `${colors.black}`,
+    },
   }),
   rating: css({
     display: "flex",
