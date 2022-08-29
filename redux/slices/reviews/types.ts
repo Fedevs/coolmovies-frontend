@@ -8,6 +8,7 @@ export interface ReviewsState {
   movieReviewModalStatus: ModalStep;
   createMovieReviewLoading: boolean;
   user: User;
+  error: boolean;
   movies: Array<Movie>;
 }
 

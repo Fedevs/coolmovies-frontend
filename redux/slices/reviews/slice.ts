@@ -7,6 +7,7 @@ const initialState: ReviewsState = {
   allMovieReviews: [],
   movies: [],
   user: { id: "", name: "" },
+  error: false,
 };
 
 export const slice = createSlice({
@@ -31,8 +32,7 @@ export const slice = createSlice({
       state.movieReviewModalStatus = action.payload;
     },
     loadError: (state) => {
-      // state.fetchData = ["Error Fetching :("];
-      alert("error");
+      state.error = true;
     },
   },
 });

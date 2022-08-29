@@ -1,6 +1,6 @@
 import { Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
-import { filter, map, switchMap } from "rxjs/operators";
+import { filter, switchMap } from "rxjs/operators";
 import { RootState } from "../../store";
 import { EpicDependencies } from "../../types";
 import { actions, SliceAction } from "./slice";

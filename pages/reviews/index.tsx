@@ -13,7 +13,9 @@ import {
 import MovieReviewModal from "../../components/MovieReviewModal";
 import MovieReviewCard from "../../components/MovieReviewCard";
 import addIcon from "../../public/add.svg";
-import { colors, media } from "../../styles/customStyles";
+import sadIcon from "../../public/sad.svg";
+import { colors } from "../../styles/customStyles";
+import EmptyState from "../../components/EmptyState";
 
 const theme = createTheme({
   palette: {
@@ -39,7 +41,7 @@ const Reviews: NextPage = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div css={styles.root}>
+      <div>
         <Box css={styles.header}>
           <Typography variant={"h1"} css={styles.headerTitle}>
             <b>Here are our reviews</b>
@@ -57,7 +59,12 @@ const Reviews: NextPage = () => {
               ></MovieReviewCard>
             ))
           ) : (
-            <div>There's nothing here...</div>
+            <EmptyState
+              text="No reviews added"
+              buttonText="Be the first!"
+              imageProps={{ src: sadIcon, width: 100, height: 100 }}
+              onClick={openModal}
+            ></EmptyState>
           )}
 
           {reviewsState.movieReviewModalStatus && (
@@ -81,10 +88,8 @@ const Reviews: NextPage = () => {
 };
 
 const styles = {
-  root: css({}),
   header: css({
     margin: "10px 10px 40px 10px",
-    border: `1px solid ${colors.black}`,
     maxWidth: "1200px",
     padding: "25px",
     display: "flex",
