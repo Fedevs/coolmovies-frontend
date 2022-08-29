@@ -12,9 +12,9 @@ export interface ReviewsState {
   movies: Array<Movie>;
 }
 
-export interface Review {
-  id?: string;
+export interface Review extends movieReviewPatch {
   nodeId?: string;
+  id?: string;
   rating: number;
   body?: string;
   title: string;
@@ -22,6 +22,15 @@ export interface Review {
   userReviewerId: string;
   movieByMovieId?: Movie;
   userByUserReviewerId?: User;
+  movieReviewPatch?: movieReviewPatch;
+}
+
+export interface movieReviewPatch {
+  rating: number;
+  body?: string;
+  title: string;
+  movieId: string;
+  userReviewerId: string;
 }
 
 export interface User {

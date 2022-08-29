@@ -1,30 +1,27 @@
-import { Typography, Button, Stack, css } from "@mui/material";
-import Image from "next/image";
+import { css } from "@emotion/react";
+import { Typography, Button, Stack } from "@mui/material";
 import { FC } from "react";
+import { colors, fonts } from "../../styles/customStyles";
 
 interface EmptyStateProps {
   text?: string;
   buttonText: string;
-  imageProps: {
-    src: string;
-    width?: number;
-    height?: number;
-  };
   onClick: () => void;
 }
 
-const EmptyState: FC<EmptyStateProps> = ({
-  text,
-  imageProps,
-  buttonText,
-  onClick,
-}) => {
+const EmptyState: FC<EmptyStateProps> = ({ text, buttonText, onClick }) => {
   return (
     <Stack spacing={3} css={styles.emptyState}>
-      {imageProps.src && <Image {...imageProps}></Image>}
-      {text && <Typography variant={"h3"}>{text}</Typography>}
-
-      <Button variant="contained" onClick={onClick}>
+      <Typography variant={"h3"}>😞​</Typography>
+      {text && (
+        <Typography
+          variant={"h3"}
+          css={{ fontFamily: `${fonts.bigShoulders}` }}
+        >
+          {text}
+        </Typography>
+      )}
+      <Button variant="contained" onClick={onClick} css={styles.button}>
         {buttonText}
       </Button>
     </Stack>
@@ -32,9 +29,20 @@ const EmptyState: FC<EmptyStateProps> = ({
 };
 const styles = {
   emptyState: css({
+    alignItems: "center",
+    color: `${colors.white}`,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
+  }),
+  button: css({
+    backgroundColor: `${colors.black}`,
+    border: `1px solid ${colors.primary}`,
+    color: `${colors.primary}`,
+    fontSize: "20px",
+    "&:hover": {
+      backgroundColor: `${colors.primary}`,
+      color: `${colors.white}`,
+    },
   }),
 };
 

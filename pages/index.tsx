@@ -24,12 +24,12 @@ const Home: NextPage = () => {
 
 const styles = {
   home: css({
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: `${colors.black}`,
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+    justifyContent: "center",
   }),
   title: css({
     color: `${colors.white}`,

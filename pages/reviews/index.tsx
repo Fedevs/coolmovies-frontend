@@ -13,7 +13,6 @@ import {
 import MovieReviewModal from "../../components/MovieReviewModal";
 import MovieReviewCard from "../../components/MovieReviewCard";
 import addIcon from "../../public/add.svg";
-import sadIcon from "../../public/sad.svg";
 import { colors, fonts } from "../../styles/customStyles";
 import EmptyState from "../../components/EmptyState";
 
@@ -62,7 +61,6 @@ const Reviews: NextPage = () => {
             <EmptyState
               text="No reviews added"
               buttonText="Be the first!"
-              imageProps={{ src: sadIcon, width: 100, height: 100 }}
               onClick={openModal}
             ></EmptyState>
           )}
@@ -88,43 +86,45 @@ const Reviews: NextPage = () => {
 };
 
 const styles = {
-  root: css({ backgroundColor: `${colors.black}` }),
+  root: css({
+    backgroundColor: `${colors.black}`,
+    height: "100%",
+    minHeight: "100vh",
+  }),
   header: css({
-    padding: "25px",
+    alignItems: "center",
     borderBottom: `1px solid ${colors.grey}`,
+    color: `${colors.white}`,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-
-    color: `${colors.white}`,
+    padding: "25px",
     textShadow: "-7px 7px 10px rgba(0,0,0,0.29)",
     "@media(min-width: 1200px)": {
       margin: "0px auto 40px auto",
     },
   }),
   headerTitle: css({
+    fontFamily: `${fonts.bigShoulders}`,
     fontSize: "30px",
     letterSpacing: "3px",
     marginBottom: "10px",
-    fontFamily: `${fonts.bigShoulders}`,
     "@media(min-width: 768px)": {
       fontSize: "60px",
     },
   }),
   container: css({
-    margin: "auto",
+    backgroundColor: `${colors.black}`,
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
     gap: "20px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    margin: "auto",
     padding: "10px auto",
     paddingTop: "30px",
-
-    backgroundColor: `${colors.black}`,
   }),
   addReviewButton: css({
-    position: "fixed",
     bottom: "10px",
+    position: "fixed",
     right: "10px",
     zIndex: "1000",
     "@media(min-width: 1200px)": {

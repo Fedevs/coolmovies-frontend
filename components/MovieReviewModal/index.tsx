@@ -68,7 +68,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
 
   const onSubmit = async () => {
     const { action, payloadReview } = getCreateOrEdit();
-    const { payload } = await dispatch(reviewsActions[action](payloadReview));
+    const { payload } = dispatch(action(payloadReview));
     if (Object.keys(payload).length) {
       closeModal();
     } else {
@@ -79,13 +79,13 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
   const getCreateOrEdit = () => {
     let dispatchAction, payload;
     if (isEdition) {
-      dispatchAction = "updateMovieReview";
+      dispatchAction = reviewsActions.updateMovieReview;
       payload = {
         nodeId: reviewsState.movieReviewModalStatus.review!.nodeId,
         movieReviewPatch: { ...movieReview },
       };
     } else {
-      dispatchAction = "createMovieReview";
+      dispatchAction = reviewsActions.createMovieReview;
       payload = movieReview;
     }
 
@@ -214,13 +214,13 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
 
 const styles = {
   box: css({
-    margin: "30px 10px",
     alignItems: "center",
     backgroundColor: `${colors.white}`,
     display: "flex",
     flexDirection: "column",
-    padding: "15px",
+    margin: "30px 10px",
     maxWidth: "480px",
+    padding: "15px",
     "@media(min-width: 480px)": {
       margin: "30px auto",
       padding: "20px 30px",
@@ -228,8 +228,8 @@ const styles = {
   }),
   title: css({
     color: `${colors.primary}`,
-    padding: "20px",
     marginBottom: "10px",
+    padding: "20px",
   }),
   form: css({
     width: "100%",
@@ -237,21 +237,21 @@ const styles = {
   formGrid: css({
     display: "flex",
     flexDirection: "column",
-    width: "100%",
     height: "100%",
     justifyContent: "space-around",
+    width: "100%",
   }),
   formElement: css({
     margin: "10px 0",
   }),
   rating: css({
-    margin: "10px 0",
     alignSelf: "center",
+    margin: "10px 0",
   }),
   buttonWrapper: css({
     display: "flex",
-    margin: "10px 0",
     justifyContent: "space-around",
+    margin: "10px 0",
   }),
   button: css({
     padding: "5px 30px",

@@ -14,25 +14,25 @@ export const slice = createSlice({
   initialState,
   name: "reviews",
   reducers: {
-    getAllMovies: () => {},
-    moviesLoaded: (state, action: PayloadAction<Array<Movie>>) => {
-      state.movies = action.payload;
-    },
-    getCurrentUser: () => {},
-    updateUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
-    },
-    getAllReviews: () => {},
     createMovieReview: (state, action: PayloadAction<Review>) => {},
+    getAllMovies: () => {},
+    getAllReviews: () => {},
+    getCurrentUser: () => {},
     movieReviewsloaded: (state, action: PayloadAction<Array<Review>>) => {
       state.allMovieReviews = action.payload;
     },
-    updateMovieReview: (state, action: PayloadAction<Review>) => {},
-    setMovieReviewModalStatus: (state, action: PayloadAction<ModalStep>) => {
-      state.movieReviewModalStatus = action.payload;
+    moviesLoaded: (state, action: PayloadAction<Array<Movie>>) => {
+      state.movies = action.payload;
     },
     setError: (state, action: PayloadAction<boolean>) => {
       state.error = action.payload;
+    },
+    setMovieReviewModalStatus: (state, action: PayloadAction<ModalStep>) => {
+      state.movieReviewModalStatus = action.payload;
+    },
+    updateMovieReview: (state, action: PayloadAction<Review>) => {},
+    updateUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
     },
   },
 });

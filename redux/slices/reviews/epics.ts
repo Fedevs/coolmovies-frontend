@@ -5,10 +5,10 @@ import { RootState } from "../../store";
 import { EpicDependencies } from "../../types";
 import { actions, SliceAction } from "./slice";
 import {
-  ALL_MOVIES,
   ALL_MOVIE_REVIEWS,
-  CURRENT_USER,
+  ALL_MOVIES,
   CREATE_MOVIE_REVIEW,
+  CURRENT_USER,
   UPDATE_MOVIE_REVIEW,
 } from "../../../assets/graphql";
 

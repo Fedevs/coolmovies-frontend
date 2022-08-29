@@ -1,19 +1,23 @@
 import { css } from "@emotion/react";
 import {
   Box,
-  Rating,
-  Typography,
+  Button,
   Card,
   CardContent,
   CardMedia,
-  Button,
   IconButton,
+  Rating,
+  Typography,
 } from "@mui/material";
 import { FC, Fragment, useState } from "react";
-import { Review } from "../../redux";
 import Image from "next/image";
+import {
+  Review,
+  reviewsActions,
+  useAppDispatch,
+  useAppSelector,
+} from "../../redux";
 import editIcon from "../../public/edit.svg";
-import { useAppSelector, reviewsActions, useAppDispatch } from "../../redux";
 import { colors, fonts } from "../../styles/customStyles";
 
 interface MovieReviewCardProps {
@@ -123,27 +127,27 @@ const MovieReviewCard: FC<MovieReviewCardProps> = ({ review }) => {
 
 const styles = {
   card: css({
-    position: "relative",
-    marginBottom: "10px",
+    backgroundColor: `${colors.white}`,
     borderRadius: "4px",
     boxShadow: `6px 5px 10px 0px  ${colors.grey}`,
-    backgroundColor: `${colors.white}`,
+    marginBottom: "10px",
+    position: "relative",
     transition: "all .2s ease-in",
     "&:hover": {
-      transform: "translate(-5px, -5px)",
       boxShadow: `4px 5px 10px 0px  ${colors.primary}}`,
+      transform: "translate(-5px, -5px)",
     },
   }),
   editIcon: css({
-    position: "absolute",
-    top: "17px",
-    right: "-2px",
     backgroundColor: `${colors.primary}`,
-    borderTopLeftRadius: "5px",
     borderBottomLeftRadius: "5px",
-    borderTopRightRadius: "0px",
     borderBottomRightRadius: "0px",
+    borderTopLeftRadius: "5px",
+    borderTopRightRadius: "0px",
     padding: "5px 10px",
+    position: "absolute",
+    right: "-2px",
+    top: "17px",
     "&:hover": {
       backgroundColor: `${colors.black}`,
     },
