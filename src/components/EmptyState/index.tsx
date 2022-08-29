@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { Typography, Button, Stack } from "@mui/material";
 import { FC } from "react";
-import { colors, fonts } from "../../styles/customStyles";
+import { colors, fonts } from "../../assets/styles/customStyles";
 
 interface EmptyStateProps {
   text?: string;

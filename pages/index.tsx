@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { Button, Container, Typography } from "@mui/material";
 import type { NextPage } from "next";
-import { colors, fonts } from "../styles/customStyles";
+import { colors, fonts } from "../src/assets/styles/customStyles";
 
 const Home: NextPage = () => {
   return (

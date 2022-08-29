@@ -10,11 +10,11 @@ import {
   useAppSelector,
   Review,
 } from "../../redux";
-import MovieReviewModal from "../../components/MovieReviewModal";
-import MovieReviewCard from "../../components/MovieReviewCard";
+import MovieReviewModal from "../../src/components/MovieReviewModal";
+import MovieReviewCard from "../../src/components/MovieReviewCard";
+import EmptyState from "../../src/components/EmptyState";
 import addIcon from "../../public/add.svg";
-import { colors, fonts } from "../../styles/customStyles";
-import EmptyState from "../../components/EmptyState";
+import { colors, fonts } from "../../src/assets/styles/customStyles";
 
 const theme = createTheme({
   palette: {

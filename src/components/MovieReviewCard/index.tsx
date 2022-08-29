@@ -16,9 +16,9 @@ import {
   reviewsActions,
   useAppDispatch,
   useAppSelector,
-} from "../../redux";
-import editIcon from "../../public/edit.svg";
-import { colors, fonts } from "../../styles/customStyles";
+} from "../../../redux";
+import editIcon from "../../../public/edit.svg";
+import { colors, fonts } from "../../assets/styles/customStyles";
 
 interface MovieReviewCardProps {
   review: Review;

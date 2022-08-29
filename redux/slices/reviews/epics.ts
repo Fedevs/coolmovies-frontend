@@ -10,7 +10,7 @@ import {
   CREATE_MOVIE_REVIEW,
   CURRENT_USER,
   UPDATE_MOVIE_REVIEW,
-} from "../../../assets/graphql";
+} from "../../../src/assets/graphql";
 
 export const getAllMoviesEpic: Epic = (
   action$: Observable<SliceAction["getAllMovies"]>,

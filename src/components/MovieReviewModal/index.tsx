@@ -21,8 +21,8 @@ import {
   useAppDispatch,
   Review,
   useAppSelector,
-} from "../../redux";
-import { colors } from "../../styles/customStyles";
+} from "../../../redux";
+import { colors, fonts } from "../../assets/styles/customStyles";
 
 type ModalProps = {
   open: boolean;
@@ -117,7 +117,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
     >
       <Box css={styles.box}>
         <Typography variant={"h5"} css={styles.title}>
-          <b>{isEdition ? "Edit your review 🖊️​" : "Rate the movie 🎬​"}</b>
+          <b>{isEdition ? "EDIT YOUR REVIEW 🖊️​" : "RATE THE MOVIE 🎬​"}</b>
         </Typography>
         <form onSubmit={onSubmit} css={styles.form}>
           {showError && (
@@ -230,6 +230,9 @@ const styles = {
     color: `${colors.primary}`,
     marginBottom: "10px",
     padding: "20px",
+    fontSize: "30px",
+    letterSpacing: "1px",
+    fontFamily: `${fonts.bigShoulders}`,
   }),
   form: css({
     width: "100%",
