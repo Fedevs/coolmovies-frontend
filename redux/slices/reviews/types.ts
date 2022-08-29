@@ -14,6 +14,7 @@ export interface ReviewsState {
 
 export interface Review {
   id?: string;
+  nodeId?: string;
   rating: number;
   body?: string;
   title: string;

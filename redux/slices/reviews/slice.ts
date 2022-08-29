@@ -31,8 +31,8 @@ export const slice = createSlice({
     setMovieReviewModalStatus: (state, action: PayloadAction<ModalStep>) => {
       state.movieReviewModalStatus = action.payload;
     },
-    loadError: (state) => {
-      state.error = true;
+    setError: (state, action: PayloadAction<boolean>) => {
+      state.error = action.payload;
     },
   },
 });

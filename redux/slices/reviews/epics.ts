@@ -26,7 +26,7 @@ export const getAllMoviesEpic: Epic = (
         });
         return actions.moviesLoaded(data.allMovies.nodes);
       } catch (err) {
-        return actions.loadError();
+        return actions.setError(true);
       }
     })
   );
@@ -45,7 +45,7 @@ export const getCurrentUserEpic: Epic = (
         });
         return actions.updateUser(data.currentUser);
       } catch (err) {
-        return actions.loadError();
+        return actions.setError(true);
       }
     })
   );
@@ -65,7 +65,7 @@ export const getAllReviewsEpic: Epic = (
         });
         return actions.movieReviewsloaded(result.data.allMovieReviews.nodes);
       } catch (err) {
-        return actions.loadError();
+        return actions.setError(true);
       }
     })
   );
@@ -92,7 +92,7 @@ export const createMovieReviewEpic: Epic = (
         });
         return actions.getAllReviews();
       } catch (err) {
-        return actions.loadError();
+        return actions.setError(true);
       }
     })
   );
@@ -115,7 +115,7 @@ export const updateMovieReviewEpic: Epic = (
         });
         return actions.getAllReviews();
       } catch (err) {
-        return actions.loadError();
+        return actions.setError(true);
       }
     })
   );

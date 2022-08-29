@@ -41,6 +41,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
   const reviewsState = useAppSelector((state) => state.reviews);
   const [movieReview, setMovieReview] = useState(initialMovieReviewValues);
   const [isEdition, setIsEdition] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     setIsEdition(Boolean(reviewsState.movieReviewModalStatus.review));
@@ -71,7 +72,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
     if (Object.keys(payload).length) {
       closeModal();
     } else {
-      console.log("error");
+      setShowError(true);
     }
   };
 
@@ -80,7 +81,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
     if (isEdition) {
       dispatchAction = "updateMovieReview";
       payload = {
-        nodeId: reviewsState.movieReviewModalStatus.review.nodeId,
+        nodeId: reviewsState.movieReviewModalStatus.review!.nodeId,
         movieReviewPatch: { ...movieReview },
       };
     } else {
@@ -97,6 +98,7 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
 
   const closeModal = () => {
     resetForm();
+    setShowError(false);
     dispatch(reviewsActions.setMovieReviewModalStatus({ open: false }));
   };
 
@@ -118,15 +120,15 @@ const MovieReviewModal: FC<ModalProps> = ({ open }: ModalProps) => {
           <b>{isEdition ? "Edit your review 🖊️​" : "Rate the movie 🎬​"}</b>
         </Typography>
         <form onSubmit={onSubmit} css={styles.form}>
-          {formError && (
+          {showError && (
             <Alert
               variant="filled"
               severity="error"
               closeText="close"
               role="alert"
-              sx={{ paddingTop: 0, paddingBottom: 0 }}
+              sx={{ paddingTop: 0, paddingBottom: 0, marginBottom: "15px" }}
             >
-              Ups! Something's broken, try again!
+              Ups! Something's broken. Try again!
             </Alert>
           )}
           <Grid container css={styles.formGrid}>
