@@ -14,7 +14,7 @@ import MovieReviewModal from "../../components/MovieReviewModal";
 import MovieReviewCard from "../../components/MovieReviewCard";
 import addIcon from "../../public/add.svg";
 import sadIcon from "../../public/sad.svg";
-import { colors } from "../../styles/customStyles";
+import { colors, fonts } from "../../styles/customStyles";
 import EmptyState from "../../components/EmptyState";
 
 const theme = createTheme({
@@ -41,13 +41,13 @@ const Reviews: NextPage = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <div css={styles.root}>
         <Box css={styles.header}>
           <Typography variant={"h1"} css={styles.headerTitle}>
-            <b>Here are our reviews</b>
+            Here are our reviews 🎬​
           </Typography>
-          <Typography variant={"body2"}>
-            <b>Pst! Don't forget to leave yours</b>
+          <Typography variant={"h6"}>
+            Pst! Don't forget to leave yours
           </Typography>
         </Box>
         <Container css={styles.container}>
@@ -88,26 +88,28 @@ const Reviews: NextPage = () => {
 };
 
 const styles = {
+  root: css({ backgroundColor: `${colors.black}` }),
   header: css({
-    margin: "10px 10px 40px 10px",
-    maxWidth: "1200px",
     padding: "25px",
+    borderBottom: `1px solid ${colors.grey}`,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "30px 0px 30px 0px",
-    backgroundColor: `${colors.lightPink}`,
+
     color: `${colors.white}`,
     textShadow: "-7px 7px 10px rgba(0,0,0,0.29)",
     "@media(min-width: 1200px)": {
-      margin: "10px auto 40px auto",
+      margin: "0px auto 40px auto",
     },
   }),
   headerTitle: css({
     fontSize: "30px",
+    letterSpacing: "3px",
+    marginBottom: "10px",
+    fontFamily: `${fonts.bigShoulders}`,
     "@media(min-width: 768px)": {
-      fontSize: "40px",
+      fontSize: "60px",
     },
   }),
   container: css({
@@ -116,12 +118,19 @@ const styles = {
     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
     gap: "20px",
     padding: "10px auto",
+    paddingTop: "30px",
+
+    backgroundColor: `${colors.black}`,
   }),
   addReviewButton: css({
-    bottom: "10px",
     position: "fixed",
+    bottom: "10px",
     right: "10px",
     zIndex: "1000",
+    "@media(min-width: 1200px)": {
+      bottom: "5%",
+      right: "5%",
+    },
   }),
 };
 
